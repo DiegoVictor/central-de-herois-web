@@ -1,5 +1,5 @@
 import { factory } from 'factory-girl';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import Hero from '../../src/app/models/Hero';
 import Monster from '../../src/app/models/Monster';
@@ -15,9 +15,9 @@ factory.define('Hero', Hero, {
       Number(faker.address.latitude()),
     ],
   }),
-  rank: () => faker.random.arrayElement(['S', 'A', 'B', 'C']),
+  rank: () => faker.helpers.arrayElement(['S', 'A', 'B', 'C']),
   status: () =>
-    faker.random.arrayElement([
+    faker.helpers.arrayElement([
       'fighting',
       'out_of_combat',
       'patrolling',
@@ -38,8 +38,8 @@ factory.define('Monster', Monster, async () => {
       ],
     }),
     heroes,
-    status: () => faker.random.arrayElement(['fighting', 'defeated', 'free']),
-    rank: faker.random.arrayElement(['God', 'Dragon', 'Tiger', 'Wolf']),
+    status: () => faker.helpers.arrayElement(['fighting', 'defeated', 'free']),
+    rank: faker.helpers.arrayElement(['God', 'Dragon', 'Tiger', 'Wolf']),
   };
 });
 

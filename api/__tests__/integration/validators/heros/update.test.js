@@ -1,6 +1,6 @@
 import request from 'supertest';
 import Mongoose from 'mongoose';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import app from '../../../../src/app';
 import factory from '../../../utils/factory';
@@ -30,7 +30,7 @@ describe('Hero controller', () => {
       .set('Authorization', token)
       .expect(400)
       .send({
-        name: faker.random.number(),
+        name: faker.datatype.number(),
         rank: faker.phone.phoneNumber(),
         status: faker.address.latitude(),
       });
