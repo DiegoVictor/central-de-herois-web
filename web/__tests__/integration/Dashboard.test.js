@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import MockAdapter from 'axios-mock-adapter';
 import { Router } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ describe('Dashboard page', () => {
     localStorage.clear();
     localStorage.setItem(
       JSON.stringify({
-        token: faker.random.uuid(),
+        token: faker.datatype.uuid(),
       })
     );
   });

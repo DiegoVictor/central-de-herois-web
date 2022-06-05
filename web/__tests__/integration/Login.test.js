@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import MockAdapter from 'axios-mock-adapter';
 import { Router } from 'react-router-dom';
 
@@ -23,7 +23,7 @@ describe('Login page', () => {
     const email = faker.internet.email();
     const password = faker.internet.password();
     const user = await factory.attrs('User');
-    const token = faker.random.uuid();
+    const token = faker.datatype.uuid();
 
     api_mock.onPost('sessions').reply(200, { user, token });
 
@@ -58,7 +58,7 @@ describe('Login page', () => {
     const email = faker.lorem.word();
     const password = faker.internet.password();
     const user = await factory.attrs('User');
-    const token = faker.random.uuid();
+    const token = faker.datatype.uuid();
 
     api_mock.onPost('sessions').reply(200, { user, token });
 

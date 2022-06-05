@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, act, fireEvent } from '@testing-library/react';
 import { Router } from 'react-router-dom';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import history from '~/services/history';
 import Layout from '~/components/Layout';
@@ -9,7 +9,7 @@ import NotificationContext from '~/contexts/Notifications';
 
 describe('Layout component', () => {
   it('should be able to close a notification', async () => {
-    const id = faker.random.number();
+    const id = faker.datatype.number();
     const title = faker.lorem.word();
     const message = faker.lorem.paragraph();
     const { getByTestId, getByText, queryByText, debug } = render(
