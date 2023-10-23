@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { Nav } from 'react-bootstrap';
+import Nav from 'react-bootstrap/Nav';
 
 export const Container = styled(Nav)`
   display: flex;
   margin-top: 100px;
   width: 100%;
+
   a {
     padding: 10px;
     @media (max-width: 500px) {

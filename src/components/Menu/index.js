@@ -1,13 +1,12 @@
 import React from 'react';
 import { Nav } from 'react-bootstrap';
 
-import { Container } from './styles';
-import history from '~/services/history';
 import Link from '~/components/Link';
+import { Container } from './styles';
 
 export default function Menu() {
   return (
-    <Container activeKey={history.action}>
+    <Container>
       <Nav.Item>
         <Link to="/dashboard">Ameaças</Link>
       </Nav.Item>
