@@ -1,4 +1,4 @@
-export const statuses = [
+export const statusLabel = [
   { key: 'fighting', label: 'Combatendo' },
   { key: 'out_of_combat', label: 'Fora de combate' },
   { key: 'patrolling', label: 'Patrulhando' },
@@ -6,10 +6,6 @@ export const statuses = [
 ];
 
 export function getLabel(key) {
-  try {
-    const { label } = statuses.find(s => s.key === key);
-    return label;
-  } catch (err) {
-    return '';
-  }
+  const status = statusLabel.find(s => s.key === key);
+  return status?.label ?? '';
 }
