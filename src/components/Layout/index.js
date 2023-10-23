@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { Outlet } from 'react-router-dom';
 
 import NotificationsContext from '~/contexts/Notifications';
 import UserContext from '~/contexts/User';
@@ -7,7 +8,7 @@ import Notification from '~/components/Notification';
 import Menu from '~/components/Menu';
 import Theme, { Container, Notifications } from './styles';
 
-export default function Layout({ children }) {
+export default function Layout() {
   const [notifications, setNotifications] = useState([]);
   const { token } = useContext(UserContext);
 
@@ -41,7 +42,7 @@ export default function Layout({ children }) {
           ))}
         </Notifications>
         {token && <Menu />}
-        {children}
+        <Outlet />
       </NotificationsContext.Provider>
     </Container>
   );
