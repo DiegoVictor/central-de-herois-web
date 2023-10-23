@@ -18,15 +18,15 @@ export default function Layout() {
       <NotificationsContext.Provider
         value={{
           list: notifications,
-          update: callback => {
-            callback(notification => {
+          update: (callback) => {
+            callback((notification) => {
               setNotifications([...notifications, notification]);
             });
           },
         }}
       >
         <Notifications>
-          {notifications.map(notification => (
+          {notifications.map((notification) => (
             <Notification
               data-testid={`notification_${notification.id}`}
               key={notification.id}
@@ -34,7 +34,7 @@ export default function Layout() {
               message={notification.message}
               onClose={() => {
                 setNotifications(
-                  notifications.filter(n => n.id !== notification.id)
+                  notifications.filter((n) => n.id !== notification.id)
                 );
               }}
               show={notification.show}
