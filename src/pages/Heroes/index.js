@@ -73,7 +73,7 @@ export default () => {
               show: true,
             });
             setHeroes(
-              heroes.map(h => {
+              heroes.map((h) => {
                 if (h._id === hero._id) {
                   return response.data;
                 }
@@ -129,7 +129,7 @@ export default () => {
         },
       });
       setHeroes(
-        data.map(hero => ({
+        data.map((hero) => ({
           ...hero,
           latitude: hero.location.coordinates[1],
           longitude: hero.location.coordinates[0],

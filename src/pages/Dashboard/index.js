@@ -56,7 +56,7 @@ export default () => {
             { headers: { Authorization: `Bearer ${token}` } }
           );
 
-          setMonsters(monsters.filter(m => m._id !== monster._id));
+          setMonsters(monsters.filter((m) => m._id !== monster._id));
           setHistory([...history, monster]);
 
           notify({
@@ -96,8 +96,9 @@ export default () => {
           Authorization: `Bearer ${token}`,
         },
       });
+
       setHistory(
-        data.map(monster => ({
+        data.map((monster) => ({
           ...monster,
           updatedAt: new Date(monster.updatedAt).toLocaleString(),
         }))
