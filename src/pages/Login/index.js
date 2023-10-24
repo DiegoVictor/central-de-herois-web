@@ -10,49 +10,42 @@ import Box from '~/components/Box';
 
 export default () => {
   const context = useContext(UserContext);
+
   const handleLogin = useCallback(
-    ({ email, password }, notify) => {
-      (async () => {
-        try {
-          const schema = Yup.object().shape({
-            email: Yup.string()
-              .email('Email inválido')
-              .required('O email é obrigatório'),
-            password: Yup.string().required('A senha é obrigatória'),
-          });
+    async ({ email, password }) => {
+      try {
+        formRef.current.setErrors({});
 
-          await schema.validate(
-            { email, password },
-            {
-              abortEarly: false,
-            }
-          );
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .email('Email inválido')
+            .required('O email é obrigatório'),
+          password: Yup.string().required('A senha é obrigatória'),
+        });
 
-          const { data } = await api.post('sessions', { email, password });
-
-          localStorage.setItem('iheroes_user', JSON.stringify(data));
-          context.token = data.token;
-          context.user = data.user;
-
-          history.push('/dashboard');
-        } catch (err) {
-          if (err instanceof Yup.ValidationError) {
-            notify({
-              id: new Date().getTime(),
-              title: 'Erro',
-              message: err.message,
-              show: true,
-            });
-          } else {
-            notify({
-              id: new Date().getTime(),
-              title: 'Erro',
-              message: 'Oops! Alguma coisa deu errado, tente novamente!',
-              show: true,
-            });
+        await schema.validate(
+          { email, password },
+          {
+            abortEarly: false,
           }
+        );
+
+        const { data } = await api.post('sessions', { email, password });
+
+        localStorage.setItem('iheroes_user', JSON.stringify(data));
+        context.token = data.token;
+        context.user = data.user;
+
+        redirect('/dashboard');
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+
+          formRef.current.setErrors(errors);
+        } else {
+          alert('Oops! Alguma coisa deu errado, tente novamente!');
         }
-      })();
+      }
     },
     [context.token, context.user]
   );

@@ -32,24 +32,22 @@ export default () => {
   const google_map_url = useMemo(() => '//www.google.com.br/maps/place/', []);
 
   const handleRemoveHero = useCallback(
-    (id, notify) => {
-      (async () => {
-        try {
-          await api.delete(`/heroes/${id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          setHeroes(heroes.filter(hero => hero._id !== id));
-        } catch (err) {
-          notify({
-            id: new Date().getTime(),
-            title: 'Erro',
-            message: 'Não foi possivel remover o heroi, tente novamente!',
-            show: true,
-          });
-        }
-      })();
+    async (id, notify) => {
+      try {
+        await api.delete(`/heroes/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setHeroes(heroes.filter((hero) => hero._id !== id));
+      } catch (err) {
+        notify({
+          id: new Date().getTime(),
+          title: 'Erro',
+          message: 'Não foi possivel remover o heroi, tente novamente!',
+          show: true,
+        });
+      }
     },
     [heroes, token]
   );

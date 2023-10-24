@@ -34,18 +34,16 @@ export default () => {
   const [monsters, setMonsters] = useState([]);
   const [history, setHistory] = useState([]);
 
-  const reList = useCallback(() => {
-    (async () => {
-      const { data } = await api.get('monsters', {
-        params: {
-          status: 'fighting',
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setMonsters(data);
-    })();
+  const reList = useCallback(async () => {
+    const { data } = await api.get('monsters', {
+      params: {
+        status: 'fighting',
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setMonsters(data);
   }, [token]);
 
   const handleMonsterDefeated = useCallback(
@@ -83,8 +81,9 @@ export default () => {
   );
 
   useEffect(() => {
-    (async () => await reList())();
-    setInterval(reList, 60 * 1000);
+    reList().finally(() => {
+      setInterval(reList, 60 * 1000);
+    });
   }, [reList]);
 
   useEffect(() => {
