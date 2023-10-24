@@ -22,7 +22,6 @@ import { getLabel } from '~/helpers/HeroStatuses';
 import api from '~/services/api';
 import Select from '~/components/Select';
 import Input from '~/components/Input';
-import Layout from '~/components/Layout';
 import Modal from '~/components/Modal';
 import { Container } from './styles';
 
@@ -142,8 +141,7 @@ export default () => {
   }, [token]);
 
   return (
-    <Layout>
-      <Container fluid>
+      <Container>
         <Row>
           <Col>
             <div className="text-right">
@@ -311,6 +309,5 @@ export default () => {
           </Col>
         </Row>
       </Container>
-    </Layout>
   );
 };

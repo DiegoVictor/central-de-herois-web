@@ -23,7 +23,6 @@ import NotificationsContext from '~/contexts/Notifications';
 import UserContext from '~/contexts/User';
 import api from '~/services/api';
 import Input from '~/components/Input';
-import Layout from '~/components/Layout';
 import Modal from '~/components/Modal';
 import Select from '~/components/Select';
 import { Container } from './styles';
@@ -108,8 +107,7 @@ export default () => {
   }, [token]);
 
   return (
-    <Layout>
-      <Container fluid>
+      <Container>
         <h5 className="d-flex align-items-center">
           Combatendo{' '}
           <Badge className="ml-1" variant="primary">
@@ -340,6 +338,5 @@ export default () => {
           )}
         </NotificationsContext.Consumer>
       </Container>
-    </Layout>
   );
 };

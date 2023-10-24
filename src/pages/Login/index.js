@@ -4,10 +4,7 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
 import UserContext from '~/contexts/User';
-import NotificationsContext from '~/contexts/Notifications';
 import api from '~/services/api';
-import history from '~/services/history';
-import Layout from '~/components/Layout';
 import Input from '~/components/Input';
 import Box from '~/components/Box';
 
@@ -61,7 +58,6 @@ export default () => {
   );
 
   return (
-    <Layout>
       <Container fluid className="h-100">
         <Row className="justify-content-center h-100">
           <Col className="d-flex align-items-center">
@@ -104,6 +100,5 @@ export default () => {
           </Col>
         </Row>
       </Container>
-    </Layout>
   );
 };
