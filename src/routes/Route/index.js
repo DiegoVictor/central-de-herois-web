@@ -1,44 +1,44 @@
-import React from 'react';
-import { Route as ReactRouterRoute, Redirect } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Route, redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import UserContext from '~/contexts/User';
 
-export default function Route({
+function AuthRoute({
   privated,
   guest,
-  component: Component,
+  element: Component,
   ...rest
 }) {
-  return (
-    <UserContext.Consumer>
-      {context => (
-        <ReactRouterRoute
-          {...rest}
-          render={props => {
-            if (!context.token) {
-              if (privated) {
-                return <Redirect to="/" />;
-              }
-            } else if (guest) {
-              return <Redirect to="/dashboard" />;
-            }
+  const context = useContext(UserContext);
+  const Page = () => {
+    if (!context.token) {
+      if (privated) {
+        return redirect("/");
+      }
+    }
 
-            return <Component {...props} />;
-          }}
-        />
-      )}
-    </UserContext.Consumer>
+    if (guest) {
+      return redirect("/dashboard");
+    }
+
+    return <Component {...props} />;
+  };
+
+  return (
+    <Route {...rest} element={Page} />
   );
 }
 
-Route.propTypes = {
+AuthRoute.propTypes = {
   privated: PropTypes.bool,
   guest: PropTypes.bool,
   component: PropTypes.func.isRequired,
 };
 
-Route.defaultProps = {
+AuthRoute.defaultProps = {
   privated: false,
   guest: false,
 };
+
+export default AuthRoute
