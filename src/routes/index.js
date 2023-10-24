@@ -1,18 +1,21 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
+import { Route, RouterProvider } from 'react-router-dom';
 
-import history from '~/services/history';
-import Route from '~/routes/Route';
+import AuthRoute from '~/routes/AuthRoute';
 import Login from '~/pages/Login';
 import Dashboard from '~/pages/Dashboard';
 import Heroes from '~/pages/Heroes';
+import Layout from '~/components/Layout';
+
+const router = createBrowserRouter(createRoutesFromElements(
+  <Route path="/" element={<Layout />}>
+    <AuthRoute index guest element={Login} />
+    <AuthRoute path="/dashboard" privated element={Dashboard} />
+    <AuthRoute path="/heroes" privated element={Heroes} />
+  </Route>
+
+));
 
 export default () => {
-  return (
-    <Router history={history}>
-      <Route path="/" exact guest component={Login} />
-      <Route path="/dashboard" privated component={Dashboard} />
-      <Route path="/heroes" privated component={Heroes} />
-    </Router>
-  );
+  return <RouterProvider router={router} />;
 };
