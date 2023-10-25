@@ -28,7 +28,7 @@ import Select from '~/components/Select';
 import { Container } from './styles';
 
 export default () => {
-  const google_map_url = useMemo(() => '//www.google.com.br/maps/place/', []);
+  const googleMapUrl = useMemo(() => '//www.google.com.br/maps/place/', []);
   const { token } = useContext(UserContext);
   const [monster, setMonster] = useState(null);
   const [monsters, setMonsters] = useState([]);
@@ -167,7 +167,7 @@ export default () => {
                 </td>
                 <td>
                   <Link
-                    to={`${google_map_url + monster.location.coordinates[1]},${
+                    to={`${googleMapUrl + monster.location.coordinates[1]},${
                       monster.location.coordinates[0]
                     }`}
                     target="_blank"
@@ -256,7 +256,7 @@ export default () => {
                 </td>
                 <td>
                   <Link
-                    to={`${google_map_url + monster.location.coordinates[1]},${
+                    to={`${googleMapUrl + monster.location.coordinates[1]},${
                       monster.location.coordinates[0]
                     }`}
                     target="_blank"

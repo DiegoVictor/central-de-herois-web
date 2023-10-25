@@ -29,7 +29,7 @@ export default () => {
   const [heroes, setHeroes] = useState([]);
   const [hero, setHero] = useState(null);
   const { token } = useContext(UserContext);
-  const google_map_url = useMemo(() => '//www.google.com.br/maps/place/', []);
+  const googleMapUrl = useMemo(() => '//www.google.com.br/maps/place/', []);
 
   const handleRemoveHero = useCallback(
     async (id, notify) => {
@@ -169,10 +169,9 @@ export default () => {
                           </td>
                           <td>
                             <Link
-                              to={`${google_map_url +
-                                hero.location.coordinates[1]},${
-                                hero.location.coordinates[0]
-                              }`}
+                              to={`${
+                                googleMapUrl + hero.location.coordinates[1]
+                              },${hero.location.coordinates[0]}`}
                               target="_blank"
                             >
                               {hero.location.coordinates
