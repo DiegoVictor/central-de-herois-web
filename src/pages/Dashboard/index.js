@@ -107,228 +107,228 @@ export default () => {
   }, [token]);
 
   return (
-      <Container>
-        <h5 className="d-flex align-items-center">
-          Combatendo{' '}
-          <Badge className="ml-1" variant="primary">
-            {monsters.length}
-          </Badge>
-        </h5>
-        <Table hover striped size="sm">
-          <thead>
-            <tr>
-              <th>Heroi(s)</th>
-              <th>Ameaça</th>
-              <th>Localização</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {monsters.map((monster) => (
-              <tr key={monster._id}>
-                <td>
-                  {monster.heroes.map((hero) => (
-                    <OverlayTrigger
-                      key={hero._id}
-                      trigger={['hover', 'focus']}
-                      placement="bottom"
-                      overlay={
-                        <Popover>
-                          <Popover.Title as="h3">{hero.name}</Popover.Title>
-                          <Popover.Content>
-                            <p>{hero.description}</p>
-                          </Popover.Content>
-                        </Popover>
-                      }
-                    >
-                      <span>
-                        {hero.name}
-                        <Badge
-                          data-testid={`hero_rank_${hero._id}`}
-                          variant="secondary"
-                        >
-                          {hero.rank}
-                        </Badge>
-                      </span>
-                    </OverlayTrigger>
-                  ))}
-                </td>
-                <td>
-                  <span className="d-flex align-items-center">
-                    {monster.name}{' '}
-                    <Badge
-                      className="ml-1"
-                      variant="secondary"
-                      data-testid={`monster_rank_${monster._id}`}
-                    >
-                      {monster.rank}
-                    </Badge>
-                  </span>
-                </td>
-                <td>
-                  <Link
-                    to={`${googleMapUrl + monster.location.coordinates[1]},${
-                      monster.location.coordinates[0]
-                    }`}
-                    target="_blank"
+    <Container>
+      <h5 className="d-flex align-items-center">
+        Combatendo{' '}
+        <Badge className="ml-1" variant="primary">
+          {monsters.length}
+        </Badge>
+      </h5>
+      <Table hover striped size="sm">
+        <thead>
+          <tr>
+            <th>Heroi(s)</th>
+            <th>Ameaça</th>
+            <th>Localização</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
+          {monsters.map((monster) => (
+            <tr key={monster._id}>
+              <td>
+                {monster.heroes.map((hero) => (
+                  <OverlayTrigger
+                    key={hero._id}
+                    trigger={['hover', 'focus']}
+                    placement="bottom"
+                    overlay={
+                      <Popover>
+                        <Popover.Header as="h3">{hero.name}</Popover.Header>
+                        <Popover.Body>
+                          <p>{hero.description}</p>
+                        </Popover.Body>
+                      </Popover>
+                    }
                   >
-                    {monster.location.coordinates.slice().reverse().join(', ')}
-                  </Link>
-                </td>
-                <td className="text-right">
-                  <Button
-                    data-testid={`monster_defeated_${monster._id}`}
-                    onClick={() => {
-                      setMonster(monster);
-                    }}
-                    size="sm"
-                  >
-                    Ameaça combatida
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-
-        <h5 className="d-flex mt-5 align-items-center">
-          Combatidos
-          <Badge className="ml-1" variant="primary">
-            {history.length}
-          </Badge>
-        </h5>
-        <Table hover striped size="sm">
-          <thead>
-            <tr>
-              <th>Heroi(s)</th>
-              <th>Ameaça</th>
-              <th>Localização</th>
-              <th>Última atualização</th>
-            </tr>
-          </thead>
-          <tbody>
-            {history.length === 0 && (
-              <tr>
-                <td colSpan="4" className="text-center">
-                  Sem resultados
-                </td>
-              </tr>
-            )}
-            {history.map((monster) => (
-              <tr key={monster._id}>
-                <td>
-                  {monster.heroes.map((hero) => (
-                    <OverlayTrigger
-                      key={hero._id}
-                      trigger={['hover', 'focus']}
-                      placement="bottom"
-                      overlay={
-                        <Popover>
-                          <Popover.Title as="h3">{hero.name}</Popover.Title>
-                          <Popover.Content>
-                            <p>{hero.description}</p>
-                          </Popover.Content>
-                        </Popover>
-                      }
-                    >
-                      <div>
-                        {hero.name}
-                        <Badge variant="secondary">
-                          <div data-testid={`hero_rank_${hero._id}`}>
-                            {hero.rank}
-                          </div>
-                        </Badge>
-                      </div>
-                    </OverlayTrigger>
-                  ))}
-                </td>
-                <td>
-                  <span className="d-flex align-items-center">
-                    {monster.name}{' '}
-                    <Badge
-                      className="ml-1"
-                      variant="secondary"
-                      data-testid={`monster_rank_${monster._id}`}
-                    >
-                      {monster.rank}
-                    </Badge>
-                  </span>
-                </td>
-                <td>
-                  <Link
-                    to={`${googleMapUrl + monster.location.coordinates[1]},${
-                      monster.location.coordinates[0]
-                    }`}
-                    target="_blank"
-                  >
-                    {monster.location.coordinates.slice().reverse().join(', ')}
-                  </Link>
-                </td>
-                <td>{monster.updatedAt}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-
-        <NotificationsContext.Consumer>
-          {({ update }) => (
-            <Modal
-              title="Ameaça"
-              show={!!monster}
-              onHide={() => setMonster(null)}
-            >
-              <Form
-                initialData={monster}
-                onSubmit={(data) => {
-                  update((notify) => {
-                    handleMonsterDefeated(data, notify);
-                  });
-                }}
-              >
-                <Frm.Group>
-                  <Frm.Label>Status do(s) herois após o combate:</Frm.Label>
-                </Frm.Group>
-                <Row>
-                  {monster &&
-                    monster.heroes.map((hero, index) => (
-                      <Col xs={6} key={hero._id}>
-                        <Frm.Group>
-                          <Frm.Label>{hero.name}</Frm.Label>
-                          <Input
-                            type="hidden"
-                            name={`heroes[${index}][_id]`}
-                            defaultValue={hero._id}
-                          />
-                          <Select
-                            className="form-control"
-                            key={hero._id}
-                            name={`heroes[${index}][status]`}
-                            data-testid={`hero_status_${hero._id}`}
-                          >
-                            <option value="resting">Descansando</option>
-                            <option value="patrolling">Patrulhando</option>
-                            <option value="out_of_combat">Fora de combate</option>
-                          </Select>
-                        </Frm.Group>
-                      </Col>
-                    ))}
-                </Row>
-                <ButtonGroup>
-                  <Button
-                    data-testid="cancel"
+                    <span>
+                      {hero.name}
+                      <Badge
+                        data-testid={`hero_rank_${hero._id}`}
+                        variant="secondary"
+                      >
+                        {hero.rank}
+                      </Badge>
+                    </span>
+                  </OverlayTrigger>
+                ))}
+              </td>
+              <td>
+                <span className="d-flex align-items-center">
+                  {monster.name}{' '}
+                  <Badge
+                    className="ml-1"
                     variant="secondary"
-                    onClick={() => setMonster(null)}
+                    data-testid={`monster_rank_${monster._id}`}
                   >
-                    Cancelar
-                  </Button>
-                  <Button data-testid="submit" type="submit">
-                    Enviar
-                  </Button>
-                </ButtonGroup>
-              </Form>
-            </Modal>
+                    {monster.rank}
+                  </Badge>
+                </span>
+              </td>
+              <td>
+                <Link
+                  to={`${googleMapUrl + monster.location.coordinates[1]},${
+                    monster.location.coordinates[0]
+                  }`}
+                  target="_blank"
+                >
+                  {monster.location.coordinates.slice().reverse().join(', ')}
+                </Link>
+              </td>
+              <td className="text-right">
+                <Button
+                  data-testid={`monster_defeated_${monster._id}`}
+                  onClick={() => {
+                    setMonster(monster);
+                  }}
+                  size="sm"
+                >
+                  Ameaça combatida
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
+      <h5 className="d-flex mt-5 align-items-center">
+        Combatidos
+        <Badge className="ml-1" variant="primary">
+          {history.length}
+        </Badge>
+      </h5>
+      <Table hover striped size="sm">
+        <thead>
+          <tr>
+            <th>Heroi(s)</th>
+            <th>Ameaça</th>
+            <th>Localização</th>
+            <th>Última atualização</th>
+          </tr>
+        </thead>
+        <tbody>
+          {history.length === 0 && (
+            <tr>
+              <td colSpan="4" className="text-center">
+                Sem resultados
+              </td>
+            </tr>
           )}
-        </NotificationsContext.Consumer>
-      </Container>
+          {history.map((monster) => (
+            <tr key={monster._id}>
+              <td>
+                {monster.heroes.map((hero) => (
+                  <OverlayTrigger
+                    key={hero._id}
+                    trigger={['hover', 'focus']}
+                    placement="bottom"
+                    overlay={
+                      <Popover>
+                        <Popover.Header as="h3">{hero.name}</Popover.Header>
+                        <Popover.Body>
+                          <p>{hero.description}</p>
+                        </Popover.Body>
+                      </Popover>
+                    }
+                  >
+                    <div>
+                      {hero.name}
+                      <Badge variant="secondary">
+                        <div data-testid={`hero_rank_${hero._id}`}>
+                          {hero.rank}
+                        </div>
+                      </Badge>
+                    </div>
+                  </OverlayTrigger>
+                ))}
+              </td>
+              <td>
+                <span className="d-flex align-items-center">
+                  {monster.name}{' '}
+                  <Badge
+                    className="ml-1"
+                    variant="secondary"
+                    data-testid={`monster_rank_${monster._id}`}
+                  >
+                    {monster.rank}
+                  </Badge>
+                </span>
+              </td>
+              <td>
+                <Link
+                  to={`${googleMapUrl + monster.location.coordinates[1]},${
+                    monster.location.coordinates[0]
+                  }`}
+                  target="_blank"
+                >
+                  {monster.location.coordinates.slice().reverse().join(', ')}
+                </Link>
+              </td>
+              <td>{monster.updatedAt}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
+      <NotificationsContext.Consumer>
+        {({ update }) => (
+          <Modal
+            title="Ameaça"
+            show={!!monster}
+            onHide={() => setMonster(null)}
+          >
+            <Form
+              initialData={monster}
+              onSubmit={(data) => {
+                update((notify) => {
+                  handleMonsterDefeated(data, notify);
+                });
+              }}
+            >
+              <Frm.Group>
+                <Frm.Label>Status do(s) herois após o combate:</Frm.Label>
+              </Frm.Group>
+              <Row>
+                {monster &&
+                  monster.heroes.map((hero, index) => (
+                    <Col xs={6} key={hero._id}>
+                      <Frm.Group>
+                        <Frm.Label>{hero.name}</Frm.Label>
+                        <Input
+                          type="hidden"
+                          name={`heroes[${index}][_id]`}
+                          defaultValue={hero._id}
+                        />
+                        <Select
+                          className="form-control"
+                          key={hero._id}
+                          name={`heroes[${index}][status]`}
+                          data-testid={`hero_status_${hero._id}`}
+                        >
+                          <option value="resting">Descansando</option>
+                          <option value="patrolling">Patrulhando</option>
+                          <option value="out_of_combat">Fora de combate</option>
+                        </Select>
+                      </Frm.Group>
+                    </Col>
+                  ))}
+              </Row>
+              <ButtonGroup>
+                <Button
+                  data-testid="cancel"
+                  variant="secondary"
+                  onClick={() => setMonster(null)}
+                >
+                  Cancelar
+                </Button>
+                <Button data-testid="submit" type="submit">
+                  Enviar
+                </Button>
+              </ButtonGroup>
+            </Form>
+          </Modal>
+        )}
+      </NotificationsContext.Consumer>
+    </Container>
   );
 };

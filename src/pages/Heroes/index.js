@@ -139,166 +139,166 @@ export default () => {
   }, [token]);
 
   return (
-      <Container>
-        <Row>
-          <Col>
-            <div className="text-right">
-              <Button data-testid="new" onClick={() => setHero({})} size="sm">
-                Novo
-              </Button>
-            </div>
-            <NotificationsContext.Consumer>
-              {({ update }) => (
-                <>
-                  <Table hover striped size="sm">
-                    <thead>
-                      <tr>
-                        <th>Nome</th>
-                        <th>Rank</th>
-                        <th>Localização</th>
-                        <th>Status</th>
-                        <th />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {heroes.map((hero) => (
-                        <tr key={hero._id} data-testid={`hero_${hero._id}`}>
-                          <td>{hero.name}</td>
-                          <td data-testid={`hero_rank_${hero._id}`}>
-                            {hero.rank}
-                          </td>
-                          <td>
-                            <Link
-                              to={`${
-                                googleMapUrl + hero.location.coordinates[1]
-                              },${hero.location.coordinates[0]}`}
-                              target="_blank"
+    <Container>
+      <Row>
+        <Col>
+          <div className="text-right">
+            <Button data-testid="new" onClick={() => setHero({})} size="sm">
+              Novo
+            </Button>
+          </div>
+          <NotificationsContext.Consumer>
+            {({ update }) => (
+              <>
+                <Table hover striped size="sm">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Rank</th>
+                      <th>Localização</th>
+                      <th>Status</th>
+                      <th />
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {heroes.map((hero) => (
+                      <tr key={hero._id} data-testid={`hero_${hero._id}`}>
+                        <td>{hero.name}</td>
+                        <td data-testid={`hero_rank_${hero._id}`}>
+                          {hero.rank}
+                        </td>
+                        <td>
+                          <Link
+                            to={`${
+                              googleMapUrl + hero.location.coordinates[1]
+                            },${hero.location.coordinates[0]}`}
+                            target="_blank"
+                          >
+                            {hero.location.coordinates
+                              .slice()
+                              .reverse()
+                              .join(', ')}
+                          </Link>
+                        </td>
+                        <td data-testid={`hero_status_${hero._id}`}>
+                          {getLabel(hero.status)}
+                        </td>
+                        <td className="text-right">
+                          <ButtonGroup>
+                            <Button
+                              data-testid={`hero_edit_${hero._id}`}
+                              size="sm"
+                              onClick={() => {
+                                setHero(hero);
+                              }}
                             >
-                              {hero.location.coordinates
-                                .slice()
-                                .reverse()
-                                .join(', ')}
-                            </Link>
-                          </td>
-                          <td data-testid={`hero_status_${hero._id}`}>
-                            {getLabel(hero.status)}
-                          </td>
-                          <td className="text-right">
-                            <ButtonGroup>
-                              <Button
-                                data-testid={`hero_edit_${hero._id}`}
-                                size="sm"
-                                onClick={() => {
-                                  setHero(hero);
-                                }}
-                              >
-                                Editar
-                              </Button>
-                              <Button
-                                data-testid={`hero_remove_${hero._id}`}
-                                disabled={hero.status === 'fighting'}
-                                size="sm"
-                                onClick={() => {
-                                  update((notify) => {
-                                    handleRemoveHero(hero._id, notify);
-                                  });
-                                }}
-                              >
-                                Remover
-                              </Button>
-                            </ButtonGroup>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
+                              Editar
+                            </Button>
+                            <Button
+                              data-testid={`hero_remove_${hero._id}`}
+                              disabled={hero.status === 'fighting'}
+                              size="sm"
+                              onClick={() => {
+                                update((notify) => {
+                                  handleRemoveHero(hero._id, notify);
+                                });
+                              }}
+                            >
+                              Remover
+                            </Button>
+                          </ButtonGroup>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
 
-                  <Modal title="Heroi" show={!!hero} onHide={() => setHero(null)}>
-                    <Form
-                      initialData={hero}
-                      onSubmit={(data) => {
-                        update((notify) => {
-                          handleHeroForm(data, notify);
-                        });
-                      }}
-                    >
+                <Modal title="Heroi" show={!!hero} onHide={() => setHero(null)}>
+                  <Form
+                    initialData={hero}
+                    onSubmit={(data) => {
+                      update((notify) => {
+                        handleHeroForm(data, notify);
+                      });
+                    }}
+                  >
+                    <Frm.Group>
+                      <Frm.Label>Nome</Frm.Label>
+                      <Input
+                        className="form-control"
+                        name="name"
+                        data-testid="name"
+                      />
+                    </Frm.Group>
+                    <Frm.Group>
+                      <Frm.Label>Rank</Frm.Label>
+                      <Select
+                        className="form-control"
+                        name="rank"
+                        data-testid="rank"
+                      >
+                        {['S', 'A', 'B', 'C'].map((rank) => (
+                          <option key={rank} value={rank}>
+                            {rank}
+                          </option>
+                        ))}
+                      </Select>
+                    </Frm.Group>
+                    <Row>
+                      <Col>
+                        <Frm.Group>
+                          <Frm.Label>Latitude</Frm.Label>
+                          <Input
+                            className="form-control"
+                            name="latitude"
+                            data-testid="latitude"
+                          />
+                        </Frm.Group>
+                      </Col>
+                      <Col>
+                        <Frm.Group>
+                          <Frm.Label>Longitude</Frm.Label>
+                          <Input
+                            className="form-control"
+                            name="longitude"
+                            data-testid="longitude"
+                          />
+                        </Frm.Group>
+                      </Col>
+                    </Row>
+                    {hero && hero.status !== 'fighting' && (
                       <Frm.Group>
-                        <Frm.Label>Nome</Frm.Label>
-                        <Input
-                          className="form-control"
-                          name="name"
-                          data-testid="name"
-                        />
-                      </Frm.Group>
-                      <Frm.Group>
-                        <Frm.Label>Rank</Frm.Label>
+                        <Frm.Label>Status</Frm.Label>
                         <Select
                           className="form-control"
-                          name="rank"
-                          data-testid="rank"
+                          name="status"
+                          data-testid="status"
                         >
-                          {['S', 'A', 'B', 'C'].map((rank) => (
-                            <option key={rank} value={rank}>
-                              {rank}
-                            </option>
-                          ))}
+                          <option value="resting">Descasando</option>
+                          <option value="out_of_combat">Fora de Combate</option>
+                          <option value="patrolling">Patrulhando</option>
                         </Select>
                       </Frm.Group>
-                      <Row>
-                        <Col>
-                          <Frm.Group>
-                            <Frm.Label>Latitude</Frm.Label>
-                            <Input
-                              className="form-control"
-                              name="latitude"
-                              data-testid="latitude"
-                            />
-                          </Frm.Group>
-                        </Col>
-                        <Col>
-                          <Frm.Group>
-                            <Frm.Label>Longitude</Frm.Label>
-                            <Input
-                              className="form-control"
-                              name="longitude"
-                              data-testid="longitude"
-                            />
-                          </Frm.Group>
-                        </Col>
-                      </Row>
-                      {hero && hero.status !== 'fighting' && (
-                        <Frm.Group>
-                          <Frm.Label>Status</Frm.Label>
-                          <Select
-                            className="form-control"
-                            name="status"
-                            data-testid="status"
-                          >
-                            <option value="resting">Descasando</option>
-                            <option value="out_of_combat">Fora de Combate</option>
-                            <option value="patrolling">Patrulhando</option>
-                          </Select>
-                        </Frm.Group>
-                      )}
-                      <ButtonGroup>
-                        <Button
-                          data-testid="cancel"
-                          variant="secondary"
-                          onClick={() => setHero(null)}
-                        >
-                          Cancelar
-                        </Button>
-                        <Button data-testid="submit" type="submit">
-                          Enviar
-                        </Button>
-                      </ButtonGroup>
-                    </Form>
-                  </Modal>
-                </>
-              )}
-            </NotificationsContext.Consumer>
-          </Col>
-        </Row>
-      </Container>
+                    )}
+                    <ButtonGroup>
+                      <Button
+                        data-testid="cancel"
+                        variant="secondary"
+                        onClick={() => setHero(null)}
+                      >
+                        Cancelar
+                      </Button>
+                      <Button data-testid="submit" type="submit">
+                        Enviar
+                      </Button>
+                    </ButtonGroup>
+                  </Form>
+                </Modal>
+              </>
+            )}
+          </NotificationsContext.Consumer>
+        </Col>
+      </Row>
+    </Container>
   );
 };
