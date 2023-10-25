@@ -55,8 +55,6 @@ export default () => {
         <Row className="justify-content-center h-100">
           <Col className="d-flex align-items-center">
             <Box>
-              <NotificationsContext.Consumer>
-                {({ update }) => (
                   <Form
                     onSubmit={data =>
                       update(notify => {
@@ -87,8 +85,6 @@ export default () => {
                       Entrar
                     </Button>
                   </Form>
-                )}
-              </NotificationsContext.Consumer>
             </Box>
           </Col>
         </Row>
