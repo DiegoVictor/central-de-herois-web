@@ -120,14 +120,14 @@ export default () => {
               <th>Heroi(s)</th>
               <th>Ameaça</th>
               <th>Localização</th>
-              <th></th>
+              <th />
             </tr>
           </thead>
           <tbody>
-            {monsters.map(monster => (
+            {monsters.map((monster) => (
               <tr key={monster._id}>
                 <td>
-                  {monster.heroes.map(hero => (
+                  {monster.heroes.map((hero) => (
                     <OverlayTrigger
                       key={hero._id}
                       trigger={['hover', 'focus']}
@@ -172,10 +172,7 @@ export default () => {
                     }`}
                     target="_blank"
                   >
-                    {monster.location.coordinates
-                      .slice()
-                      .reverse()
-                      .join(', ')}
+                    {monster.location.coordinates.slice().reverse().join(', ')}
                   </Link>
                 </td>
                 <td className="text-right">
@@ -217,10 +214,10 @@ export default () => {
                 </td>
               </tr>
             )}
-            {history.map(monster => (
+            {history.map((monster) => (
               <tr key={monster._id}>
                 <td>
-                  {monster.heroes.map(hero => (
+                  {monster.heroes.map((hero) => (
                     <OverlayTrigger
                       key={hero._id}
                       trigger={['hover', 'focus']}
@@ -264,10 +261,7 @@ export default () => {
                     }`}
                     target="_blank"
                   >
-                    {monster.location.coordinates
-                      .slice()
-                      .reverse()
-                      .join(', ')}
+                    {monster.location.coordinates.slice().reverse().join(', ')}
                   </Link>
                 </td>
                 <td>{monster.updatedAt}</td>
@@ -285,8 +279,8 @@ export default () => {
             >
               <Form
                 initialData={monster}
-                onSubmit={data => {
-                  update(notify => {
+                onSubmit={(data) => {
+                  update((notify) => {
                     handleMonsterDefeated(data, notify);
                   });
                 }}
@@ -313,9 +307,7 @@ export default () => {
                           >
                             <option value="resting">Descansando</option>
                             <option value="patrolling">Patrulhando</option>
-                            <option value="out_of_combat">
-                              Fora de combate
-                            </option>
+                            <option value="out_of_combat">Fora de combate</option>
                           </Select>
                         </Frm.Group>
                       </Col>

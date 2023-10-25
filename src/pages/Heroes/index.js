@@ -157,11 +157,11 @@ export default () => {
                         <th>Rank</th>
                         <th>Localização</th>
                         <th>Status</th>
-                        <th></th>
+                        <th />
                       </tr>
                     </thead>
                     <tbody>
-                      {heroes.map(hero => (
+                      {heroes.map((hero) => (
                         <tr key={hero._id} data-testid={`hero_${hero._id}`}>
                           <td>{hero.name}</td>
                           <td data-testid={`hero_rank_${hero._id}`}>
@@ -200,7 +200,7 @@ export default () => {
                                 disabled={hero.status === 'fighting'}
                                 size="sm"
                                 onClick={() => {
-                                  update(notify => {
+                                  update((notify) => {
                                     handleRemoveHero(hero._id, notify);
                                   });
                                 }}
@@ -214,15 +214,11 @@ export default () => {
                     </tbody>
                   </Table>
 
-                  <Modal
-                    title="Heroi"
-                    show={!!hero}
-                    onHide={() => setHero(null)}
-                  >
+                  <Modal title="Heroi" show={!!hero} onHide={() => setHero(null)}>
                     <Form
                       initialData={hero}
-                      onSubmit={data => {
-                        update(notify => {
+                      onSubmit={(data) => {
+                        update((notify) => {
                           handleHeroForm(data, notify);
                         });
                       }}
@@ -242,7 +238,7 @@ export default () => {
                           name="rank"
                           data-testid="rank"
                         >
-                          {['S', 'A', 'B', 'C'].map(rank => (
+                          {['S', 'A', 'B', 'C'].map((rank) => (
                             <option key={rank} value={rank}>
                               {rank}
                             </option>
@@ -280,9 +276,7 @@ export default () => {
                             data-testid="status"
                           >
                             <option value="resting">Descasando</option>
-                            <option value="out_of_combat">
-                              Fora de Combate
-                            </option>
+                            <option value="out_of_combat">Fora de Combate</option>
                             <option value="patrolling">Patrulhando</option>
                           </Select>
                         </Frm.Group>
