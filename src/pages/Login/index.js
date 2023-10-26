@@ -9,6 +9,7 @@ import Input from '~/components/Input';
 import Box from '~/components/Box';
 
 export default () => {
+  const formRef = useRef(null);
   const context = useContext(UserContext);
 
   const handleLogin = useCallback(
@@ -55,13 +56,7 @@ export default () => {
         <Row className="justify-content-center h-100">
           <Col className="d-flex align-items-center">
             <Box>
-                  <Form
-                    onSubmit={data =>
-                      update(notify => {
-                        handleLogin(data, notify);
-                      })
-                    }
-                  >
+                  <Form ref={formRef} onSubmit={handleLogin}>
                     <Frm.Group>
                       <Frm.Label>Email</Frm.Label>
                       <Input
@@ -81,7 +76,12 @@ export default () => {
                       />
                     </Frm.Group>
 
-                    <Button data-testid="submit" type="submit" size="lg" block>
+                    <Button
+                      data-testid="submit"
+                      type="submit"
+                      size="lg"
+                      onClick={() => formRef.current?.submitForm()}
+                    >
                       Entrar
                     </Button>
                   </Form>
