@@ -1,34 +1,32 @@
 import React from 'react';
 import MockAdapter from 'axios-mock-adapter';
-import { act, render, fireEvent } from '@testing-library/react';
-import { Router } from 'react-router-dom';
+import { act, render, fireEvent, waitFor } from '@testing-library/react';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 import factory from '../utils/factory';
 import api from '~/services/api';
 import Heroes from '~/pages/Heroes';
 import { getLabel } from '~/helpers/HeroStatuses';
-import history from '~/services/history';
+import Layout from '~/components/Layout';
 
-const api_mock = new MockAdapter(api);
+const apiMock = new MockAdapter(api);
 
 describe('Heroes page', () => {
   it('should be able to get a list of heroes', async () => {
     const heroes = await factory.attrsMany('Hero', 3);
 
-    api_mock.onGet('heroes').reply(200, heroes);
+    apiMock.onGet('heroes').reply(200, heroes);
 
-    let getByTestId;
-    let getByText;
-    await act(async () => {
-      const component = render(
-        <Router history={history}>
-          <Heroes />
-        </Router>
-      );
+    const router = createMemoryRouter([{
+      path:'/',
+      element: <Heroes />
+    }]);
+    const { getByTestId, getByText } = render(
+      <RouterProvider router={router} />
+    );
 
-      getByTestId = component.getByTestId;
-      getByText = component.getByText;
-    });
+    const [{ name }] = heroes;
+    await waitFor(() => getByText(name));
 
     heroes.forEach(hero => {
       expect(getByText(hero.name)).toBeInTheDocument();
@@ -48,26 +46,27 @@ describe('Heroes page', () => {
   });
 
   it('should be able to remove an hero', async () => {
-    const [hero, ...rest] = await factory.attrsMany('Hero', 3);
+    const hero = await factory.attrs('Hero');
 
-    api_mock
+    apiMock
       .onGet('heroes')
-      .reply(200, [hero, ...rest])
+      .reply(200, [hero])
       .onDelete(`/heroes/${hero._id}`)
       .reply(200);
 
-    let queryByTestId;
-    let getByTestId;
-    await act(async () => {
-      const component = render(
-        <Router history={history}>
-          <Heroes />
-        </Router>
-      );
+    const router = createMemoryRouter([{
+      path:'/',
+      element: <Layout />,
+      children: [{
+        index: true,
+        element: <Heroes />
+      }]
+    }]);
+    const { getByTestId, queryByTestId } = render(
+      <RouterProvider router={router} />
+    );
 
-      getByTestId = component.getByTestId;
-      queryByTestId = component.queryByTestId;
-    });
+    await waitFor(() => getByTestId(`hero_remove_${hero._id}`));
 
     await act(async () => {
       fireEvent.click(getByTestId(`hero_remove_${hero._id}`));
@@ -79,24 +78,25 @@ describe('Heroes page', () => {
   it('should not be able to remove an hero', async () => {
     const [hero, ...rest] = await factory.attrsMany('Hero', 3);
 
-    api_mock
+    apiMock
       .onGet('heroes')
       .reply(200, [hero, ...rest])
       .onDelete(`/heroes/${hero._id}`)
       .reply(404);
 
-    let getByText;
-    let getByTestId;
-    await act(async () => {
-      const component = render(
-        <Router history={history}>
-          <Heroes />
-        </Router>
-      );
+    const router = createMemoryRouter([{
+      path:'/',
+      element: <Layout />,
+      children: [{
+        index: true,
+        element: <Heroes />
+      }]
+    }]);
+    const { getByTestId, getByText } = render(
+      <RouterProvider router={router} />
+    );
 
-      getByTestId = component.getByTestId;
-      getByText = component.getByText;
-    });
+    await waitFor(() => getByTestId(`hero_remove_${hero._id}`));
 
     await act(async () => {
       fireEvent.click(getByTestId(`hero_remove_${hero._id}`));
@@ -110,24 +110,23 @@ describe('Heroes page', () => {
   it('should be able to store a new hero', async () => {
     const { _id, name, rank, location, status } = await factory.attrs('Hero');
 
-    api_mock
+    apiMock
       .onGet('heroes')
       .reply(200, [])
       .onPost('heroes')
       .reply(200, { _id, name, rank, location, status });
 
-    let getByText;
-    let getByTestId;
-    await act(async () => {
-      const component = render(
-        <Router history={history}>
-          <Heroes />
-        </Router>
-      );
-
-      getByText = component.getByText;
-      getByTestId = component.getByTestId;
-    });
+    const router = createMemoryRouter([{
+      path:'/',
+      element: <Layout />,
+      children: [{
+        index: true,
+        element: <Heroes />
+      }]
+    }]);
+    const { getByTestId, getByText } = render(
+      <RouterProvider router={router} />
+    );
 
     await act(async () => {
       fireEvent.click(getByTestId('new'));
@@ -158,24 +157,23 @@ describe('Heroes page', () => {
   it('should not be able to store a new hero', async () => {
     const { name, rank, location, status } = await factory.attrs('Hero');
 
-    api_mock
+    apiMock
       .onGet('heroes')
       .reply(200, [])
       .onPost('heroes')
       .reply(400);
 
-    let getByText;
-    let getByTestId;
-    await act(async () => {
-      const component = render(
-        <Router history={history}>
-          <Heroes />
-        </Router>
-      );
-
-      getByText = component.getByText;
-      getByTestId = component.getByTestId;
-    });
+    const router = createMemoryRouter([{
+      path:'/',
+      element: <Layout />,
+      children: [{
+        index: true,
+        element: <Heroes />
+      }]
+    }]);
+    const { getByTestId, getByText } = render(
+      <RouterProvider router={router} />
+    );
 
     await act(async () => {
       fireEvent.click(getByTestId('new'));
@@ -211,24 +209,25 @@ describe('Heroes page', () => {
       ...rest
     ] = await factory.attrsMany('Hero', 3);
 
-    api_mock
+    apiMock
       .onGet('heroes')
       .reply(200, [hero, ...rest])
       .onPut(`/heroes/${hero._id}`)
       .reply(200, { _id: hero._id, name, status, rank, location });
 
-    let getByText;
-    let getByTestId;
-    await act(async () => {
-      const component = render(
-        <Router history={history}>
-          <Heroes />
-        </Router>
-      );
+    const router = createMemoryRouter([{
+      path:'/',
+      element: <Layout />,
+      children: [{
+        index: true,
+        element: <Heroes />
+      }]
+    }]);
+    const { getByTestId, getByText } = render(
+      <RouterProvider router={router} />
+    );
 
-      getByText = component.getByText;
-      getByTestId = component.getByTestId;
-    });
+    await waitFor(() => getByTestId(`hero_edit_${hero._id}`));
 
     await act(async () => {
       fireEvent.click(getByTestId(`hero_edit_${hero._id}`));
@@ -275,24 +274,25 @@ describe('Heroes page', () => {
       ...rest
     ] = await factory.attrsMany('Hero', 3);
 
-    api_mock
+    apiMock
       .onGet('heroes')
       .reply(200, [hero, ...rest])
       .onPut(`/heroes/${hero._id}`)
       .reply(404);
 
-    let getByText;
-    let getByTestId;
-    await act(async () => {
-      const component = render(
-        <Router history={history}>
-          <Heroes />
-        </Router>
-      );
+    const router = createMemoryRouter([{
+      path:'/',
+      element: <Layout />,
+      children: [{
+        index: true,
+        element: <Heroes />
+      }]
+    }]);
+    const { getByTestId, getByText } = render(
+      <RouterProvider router={router} />
+    );
 
-      getByText = component.getByText;
-      getByTestId = component.getByTestId;
-    });
+    await waitFor(() => getByTestId(`hero_edit_${hero._id}`));
 
     await act(async () => {
       fireEvent.click(getByTestId(`hero_edit_${hero._id}`));

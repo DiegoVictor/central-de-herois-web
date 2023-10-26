@@ -2,17 +2,21 @@ import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 import { faker } from '@faker-js/faker';
 import MockAdapter from 'axios-mock-adapter';
-import { Router } from 'react-router-dom';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 import api from '~/services/api';
-import history from '~/services/history';
 import factory from '../utils/factory';
 import Login from '~/pages/Login';
 
-const api_mock = new MockAdapter(api);
+const apiMock = new MockAdapter(api);
 
-jest.mock('~/services/history');
-history.push.mockImplementation(() => {});
+const mockRedirect = jest.fn();
+jest.mock('react-router-dom', () => {
+  return {
+    ...jest.requireActual('react-router-dom'),
+    redirect: (to) => mockRedirect(to)
+  }
+})
 
 describe('Login page', () => {
   beforeEach(async () => {
@@ -23,14 +27,16 @@ describe('Login page', () => {
     const email = faker.internet.email();
     const password = faker.internet.password();
     const user = await factory.attrs('User');
-    const token = faker.datatype.uuid();
+    const token = faker.string.uuid();
 
-    api_mock.onPost('sessions').reply(200, { user, token });
+    apiMock.onPost('sessions').reply(200, { user, token });
 
+    const router = createMemoryRouter([{
+      path:'/',
+      element: <Login />
+    }]);
     const { getByTestId } = render(
-      <Router history={history}>
-        <Login />
-      </Router>
+      <RouterProvider router={router} />
     );
 
     fireEvent.change(getByTestId('email'), {
@@ -51,21 +57,19 @@ describe('Login page', () => {
         token,
       })
     );
-    expect(history.push).toHaveBeenCalledWith('/dashboard');
+    expect(mockRedirect).toHaveBeenCalledWith('/dashboard');
   });
 
   it('should be able to fail in validation', async () => {
     const email = faker.lorem.word();
     const password = faker.internet.password();
-    const user = await factory.attrs('User');
-    const token = faker.datatype.uuid();
 
-    api_mock.onPost('sessions').reply(200, { user, token });
-
-    const { getByTestId, getByText } = render(
-      <Router history={history}>
-        <Login />
-      </Router>
+    const router = createMemoryRouter([{
+      path:'/',
+      element: <Login />
+    }]);
+    const { getByTestId, getByText  } = render(
+      <RouterProvider router={router} />
     );
 
     fireEvent.change(getByTestId('email'), {
@@ -87,12 +91,17 @@ describe('Login page', () => {
     const email = faker.internet.email();
     const password = faker.internet.password();
 
-    api_mock.onPost('sessions').reply(400);
+    apiMock.onPost('sessions').reply(400);
 
-    const { getByTestId, getByText } = render(
-      <Router history={history}>
-        <Login />
-      </Router>
+    const router = createMemoryRouter([{
+      path:'/',
+      element: <Login />
+    }]);
+
+    router.window.alert = jest.fn();
+
+    const { getByTestId  } = render(
+      <RouterProvider router={router} />
     );
 
     fireEvent.change(getByTestId('email'), {
@@ -107,8 +116,8 @@ describe('Login page', () => {
       fireEvent.click(getByTestId('submit'));
     });
 
-    expect(
-      getByText('Oops! Alguma coisa deu errado, tente novamente!')
-    ).toBeInTheDocument();
+    expect(router.window.alert).toHaveBeenCalledWith(
+      'Oops! Alguma coisa deu errado, tente novamente!'
+    );
   });
 });

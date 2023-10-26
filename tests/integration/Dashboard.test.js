@@ -1,38 +1,37 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import { faker } from '@faker-js/faker';
 import MockAdapter from 'axios-mock-adapter';
-import { Router } from 'react-router-dom';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 import api from '~/services/api';
-import history from '~/services/history';
 import factory from '../utils/factory';
 import Dashboard from '~/pages/Dashboard';
+import Layout from '~/components/Layout';
 
-const api_mock = new MockAdapter(api);
-
-jest.mock('~/services/history');
-history.push.mockImplementation(() => {});
+const apiMock = new MockAdapter(api);
 
 describe('Dashboard page', () => {
   beforeEach(async () => {
     localStorage.clear();
     localStorage.setItem(
       JSON.stringify({
-        token: faker.datatype.uuid(),
+        token: faker.string.uuid(),
       })
     );
   });
 
   it('should be able to get a list of monsters fighting and defeated', async () => {
-    const fighting = await factory.attrsMany('Monster', 3, {
-      status: 'fighting',
-    });
-    const defeated = await factory.attrsMany('Monster', 3, {
-      status: 'defeated',
-    });
+    const [fighting, defeated] = await Promise.all([
+      factory.attrsMany('Monster', 3, {
+        status: 'fighting',
+      }),
+      factory.attrsMany('Monster', 3, {
+        status: 'defeated',
+      }),
+    ]);
 
-    api_mock
+    apiMock
       .onGet('monsters', {
         params: {
           status: 'fighting',
@@ -46,24 +45,28 @@ describe('Dashboard page', () => {
       })
       .reply(200, defeated);
 
-    let getByText;
-    let getByTestId;
-    await act(async () => {
-      const component = render(
-        <Router history={history}>
-          <Dashboard />
-        </Router>
-      );
-      getByText = component.getByText;
-      getByTestId = component.getByTestId;
-    });
 
-    [...fighting, ...defeated].forEach(monster => {
+    const router = createMemoryRouter([{
+      path:'/',
+      element: <Dashboard />
+    }]);
+    const { getByTestId, getByText } = render(
+      <RouterProvider router={router} />
+    );
+
+    const [
+      {
+        heroes: [{ name }],
+      },
+    ] = fighting;
+    await waitFor(() => getByText(name));
+
+    fighting.concat(defeated).forEach(monster => {
       const [hero] = monster.heroes;
 
       expect(getByText(hero.name)).toBeInTheDocument();
       expect(getByTestId(`hero_rank_${hero._id}`)).toHaveTextContent(hero.rank);
-      expect(getByText(monster.name)).toBeInTheDocument();
+      expect(getByText(name)).toBeInTheDocument();
       expect(getByTestId(`monster_rank_${monster._id}`)).toHaveTextContent(
         monster.rank
       );
@@ -83,7 +86,7 @@ describe('Dashboard page', () => {
       status: 'fighting',
     });
 
-    api_mock
+    apiMock
       .onGet('monsters', {
         params: {
           status: 'fighting',
@@ -99,17 +102,19 @@ describe('Dashboard page', () => {
       .onPut(`/monsters/${monster._id}/defeated`)
       .reply(200);
 
-    let getByText;
-    let getByTestId;
-    await act(async () => {
-      const component = render(
-        <Router history={history}>
-          <Dashboard />
-        </Router>
-      );
-      getByText = component.getByText;
-      getByTestId = component.getByTestId;
-    });
+    const router = createMemoryRouter([{
+      path:'/',
+      element: <Layout />,
+      children: [{
+        index: true,
+        element: <Dashboard />
+      }]
+    }]);
+    const { getByTestId, getByText } = render(
+      <RouterProvider router={router} />
+    );
+
+    await waitFor(() => getByTestId(`monster_defeated_${monster._id}`));
 
     await act(async () => {
       fireEvent.click(getByTestId(`monster_defeated_${monster._id}`));
@@ -132,7 +137,7 @@ describe('Dashboard page', () => {
       status: 'fighting',
     });
 
-    api_mock
+    apiMock
       .onGet('monsters', {
         params: {
           status: 'fighting',
@@ -148,17 +153,19 @@ describe('Dashboard page', () => {
       .onPut(`/monsters/${monster._id}/defeated`)
       .reply(404);
 
-    let getByText;
-    let getByTestId;
-    await act(async () => {
-      const component = render(
-        <Router history={history}>
-          <Dashboard />
-        </Router>
-      );
-      getByText = component.getByText;
-      getByTestId = component.getByTestId;
-    });
+    const router = createMemoryRouter([{
+      path:'/',
+      element: <Layout />,
+      children: [{
+        index: true,
+        element: <Dashboard />
+      }]
+    }]);
+    const { getByTestId, getByText } = render(
+      <RouterProvider router={router} />
+    );
+
+    await waitFor(() => getByTestId(`monster_defeated_${monster._id}`));
 
     await act(async () => {
       fireEvent.click(getByTestId(`monster_defeated_${monster._id}`));
