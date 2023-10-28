@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useField } from '@unform/core';
 
-export default function Input({ name, children, ...rest }) {
+export function Select({ name, children, ...rest }) {
   const inputRef = useRef(null);
 
   const { fieldName, defaultValue = '', registerField } = useField(name);
@@ -22,6 +22,6 @@ export default function Input({ name, children, ...rest }) {
   );
 }
 
-Input.propTypes = {
+Select.propTypes = {
   name: PropTypes.string.isRequired,
 };

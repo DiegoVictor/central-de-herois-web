@@ -22,12 +22,12 @@ import { Link } from 'react-router-dom';
 import NotificationsContext from '~/contexts/Notifications';
 import UserContext from '~/contexts/User';
 import api from '~/services/api';
-import Input from '~/components/Input';
-import Modal from '~/components/Modal';
-import Select from '~/components/Select';
+import { Input } from '~/components/Input';
+import { Modal } from '~/components/Modal';
+import { Select } from '~/components/Select';
 import { Container } from './styles';
 
-export default () => {
+export function Dashboard() {
   const googleMapUrl = useMemo(() => '//www.google.com.br/maps/place/', []);
   const { token } = useContext(UserContext);
   const [monster, setMonster] = useState(null);

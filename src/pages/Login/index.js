@@ -5,12 +5,12 @@ import * as Yup from 'yup';
 
 import UserContext from '~/contexts/User';
 import api from '~/services/api';
-import Input from '~/components/Input';
-import Box from '~/components/Box';
+import { Input } from '~/components/Input';
+import { Box } from '~/components/Box';
 import { getValidationErrors } from '~/utils/getValidationErrors';
 import { redirect } from 'react-router-dom';
 
-export default () => {
+export function Login() {
   const formRef = useRef(null);
   const context = useContext(UserContext);
 

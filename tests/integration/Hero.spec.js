@@ -5,9 +5,9 @@ import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 import factory from '../utils/factory';
 import api from '~/services/api';
-import Heroes from '~/pages/Heroes';
+import { Heroes } from '~/pages/Heroes';
 import { getLabel } from '~/helpers/HeroStatuses';
-import Layout from '~/components/Layout';
+import { Layout } from '~/components/Layout';
 
 const apiMock = new MockAdapter(api);
 

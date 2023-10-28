@@ -6,7 +6,7 @@ import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 import api from '~/services/api';
 import factory from '../utils/factory';
-import Login from '~/pages/Login';
+import { Login } from '~/pages/Login';
 
 const apiMock = new MockAdapter(api);
 

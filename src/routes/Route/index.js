@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import UserContext from '~/contexts/User';
 
-function AuthRoute({
+export function AuthRoute({
   privated,
   guest,
   element: Component,
@@ -40,5 +40,3 @@ AuthRoute.defaultProps = {
   privated: false,
   guest: false,
 };
-
-export default AuthRoute

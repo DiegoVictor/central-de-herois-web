@@ -20,12 +20,12 @@ import UserContext from '~/contexts/User';
 import NotificationsContext from '~/contexts/Notifications';
 import { getLabel } from '~/helpers/HeroStatuses';
 import api from '~/services/api';
-import Select from '~/components/Select';
-import Input from '~/components/Input';
-import Modal from '~/components/Modal';
+import { Select } from '~/components/Select';
+import { Input } from '~/components/Input';
+import { Modal } from '~/components/Modal';
 import { Container } from './styles';
 
-export default () => {
+export function Heroes() {
   const [heroes, setHeroes] = useState([]);
   const [hero, setHero] = useState(null);
   const { token } = useContext(UserContext);

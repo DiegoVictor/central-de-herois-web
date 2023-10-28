@@ -1,10 +1,10 @@
 import React from 'react';
 import { Nav } from 'react-bootstrap';
 
-import Link from '~/components/Link';
+import { Link } from '~/components/Link';
 import { Container } from './styles';
 
-export default function Menu() {
+export function Menu() {
   return (
     <Container>
       <Nav.Item>

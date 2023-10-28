@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Anchor } from './styles';
 
-export default function Link({ children, to }) {
+export function Link({ children, to }) {
   return (
     <Anchor to={to}>
       {({ isActive }) => (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Toast } from 'react-bootstrap';
 
-export default function Notification({ title, message, ...rest }) {
+export function Notification({ title, message, ...rest }) {
   return (
     <Toast animation={false} {...rest}>
       <Toast.Header>

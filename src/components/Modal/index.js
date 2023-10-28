@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal as Md } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-export default function Modal({ title, children, ...props }) {
+export function Modal({ title, children, ...props }) {
   return (
     <Md {...props}>
       <Md.Header>

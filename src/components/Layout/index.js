@@ -4,11 +4,11 @@ import { Outlet } from 'react-router-dom';
 
 import NotificationsContext from '~/contexts/Notifications';
 import UserContext from '~/contexts/User';
-import Notification from '~/components/Notification';
-import Menu from '~/components/Menu';
+import { Notification } from '~/components/Notification';
+import { Menu } from '~/components/Menu';
 import Theme, { Container, Notifications } from './styles';
 
-export default function Layout() {
+export function Layout() {
   const [notifications, setNotifications] = useState([]);
   const { token } = useContext(UserContext);
 

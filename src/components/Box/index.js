@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.div`
+export const Box = styled.div`
   background-color: #fff;
   box-shadow: 0px 0px 5px #aaa;
   margin: auto;

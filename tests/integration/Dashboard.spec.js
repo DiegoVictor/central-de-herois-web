@@ -6,8 +6,8 @@ import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 import api from '~/services/api';
 import factory from '../utils/factory';
-import Dashboard from '~/pages/Dashboard';
-import Layout from '~/components/Layout';
+import { Dashboard } from '~/pages/Dashboard';
+import { Layout } from '~/components/Layout';
 
 const apiMock = new MockAdapter(api);
 

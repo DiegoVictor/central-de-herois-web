@@ -4,7 +4,7 @@ import { useField } from '@unform/core';
 
 import { Error } from './styles';
 
-export default function Input({ name, ...rest }) {
+export function Input({ name, ...rest }) {
   const inputRef = useRef();
 
   const { fieldName, defaultValue, registerField, error } = useField(name);
