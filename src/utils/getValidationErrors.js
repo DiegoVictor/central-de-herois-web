@@ -1,7 +1,7 @@
-export const getValidationErrors = err => {
+export const getValidationErrors = (err) => {
   const validationErrors = {};
 
-  err.inner.forEach(error => {
+  err.inner.forEach((error) => {
     if (error.path) {
       validationErrors[error.path] = error.message;
     }

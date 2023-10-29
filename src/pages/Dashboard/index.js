@@ -331,4 +331,4 @@ export function Dashboard() {
       </NotificationsContext.Consumer>
     </Container>
   );
-};
+}

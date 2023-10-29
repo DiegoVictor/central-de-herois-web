@@ -45,11 +45,12 @@ describe('Dashboard page', () => {
       })
       .reply(200, defeated);
 
-
-    const router = createMemoryRouter([{
-      path:'/',
-      element: <Dashboard />
-    }]);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Dashboard />,
+      },
+    ]);
     const { getByTestId, getByText } = render(
       <RouterProvider router={router} />
     );
@@ -61,7 +62,7 @@ describe('Dashboard page', () => {
     ] = fighting;
     await waitFor(() => getByText(name));
 
-    fighting.concat(defeated).forEach(monster => {
+    fighting.concat(defeated).forEach((monster) => {
       const [hero] = monster.heroes;
 
       expect(getByText(hero.name)).toBeInTheDocument();
@@ -71,12 +72,7 @@ describe('Dashboard page', () => {
         monster.rank
       );
       expect(
-        getByText(
-          monster.location.coordinates
-            .slice()
-            .reverse()
-            .join(', ')
-        )
+        getByText(monster.location.coordinates.slice().reverse().join(', '))
       );
     });
   });
@@ -102,14 +98,18 @@ describe('Dashboard page', () => {
       .onPut(`/monsters/${monster._id}/defeated`)
       .reply(200);
 
-    const router = createMemoryRouter([{
-      path:'/',
-      element: <Layout />,
-      children: [{
-        index: true,
-        element: <Dashboard />
-      }]
-    }]);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Layout />,
+        children: [
+          {
+            index: true,
+            element: <Dashboard />,
+          },
+        ],
+      },
+    ]);
     const { getByTestId, getByText } = render(
       <RouterProvider router={router} />
     );
@@ -153,14 +153,18 @@ describe('Dashboard page', () => {
       .onPut(`/monsters/${monster._id}/defeated`)
       .reply(404);
 
-    const router = createMemoryRouter([{
-      path:'/',
-      element: <Layout />,
-      children: [{
-        index: true,
-        element: <Dashboard />
-      }]
-    }]);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Layout />,
+        children: [
+          {
+            index: true,
+            element: <Dashboard />,
+          },
+        ],
+      },
+    ]);
     const { getByTestId, getByText } = render(
       <RouterProvider router={router} />
     );

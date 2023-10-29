@@ -6,6 +6,6 @@ export const statusLabel = [
 ];
 
 export function getLabel(key) {
-  const status = statusLabel.find(s => s.key === key);
+  const status = statusLabel.find((s) => s.key === key);
   return status?.label ?? '';
 }

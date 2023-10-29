@@ -11,20 +11,22 @@ import Theme, { Container, Notifications } from './styles';
 export function Layout() {
   const [notifications, setNotifications] = useState([]);
   const { token } = useContext(UserContext);
-
-  return (
-    <Container>
-      <Theme />
-      <NotificationsContext.Provider
-        value={{
+  const context = useMemo(
+    () => ({
           list: notifications,
           update: (callback) => {
             callback((notification) => {
               setNotifications([...notifications, notification]);
             });
           },
-        }}
-      >
+    }),
+    [notifications]
+  );
+
+  return (
+    <Container>
+      <Theme />
+      <NotificationsContext.Provider value={context}>
         <Notifications>
           {notifications.map((notification) => (
             <Notification

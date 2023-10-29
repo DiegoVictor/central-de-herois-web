@@ -17,10 +17,12 @@ describe('Heroes page', () => {
 
     apiMock.onGet('heroes').reply(200, heroes);
 
-    const router = createMemoryRouter([{
-      path:'/',
-      element: <Heroes />
-    }]);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Heroes />,
+      },
+    ]);
     const { getByTestId, getByText } = render(
       <RouterProvider router={router} />
     );
@@ -28,16 +30,11 @@ describe('Heroes page', () => {
     const [{ name }] = heroes;
     await waitFor(() => getByText(name));
 
-    heroes.forEach(hero => {
+    heroes.forEach((hero) => {
       expect(getByText(hero.name)).toBeInTheDocument();
       expect(getByTestId(`hero_rank_${hero._id}`)).toHaveTextContent(hero.rank);
       expect(
-        getByText(
-          hero.location.coordinates
-            .slice()
-            .reverse()
-            .join(', ')
-        )
+        getByText(hero.location.coordinates.slice().reverse().join(', '))
       ).toBeInTheDocument();
       expect(getByTestId(`hero_status_${hero._id}`)).toHaveTextContent(
         getLabel(hero.status)
@@ -54,14 +51,18 @@ describe('Heroes page', () => {
       .onDelete(`/heroes/${hero._id}`)
       .reply(200);
 
-    const router = createMemoryRouter([{
-      path:'/',
-      element: <Layout />,
-      children: [{
-        index: true,
-        element: <Heroes />
-      }]
-    }]);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Layout />,
+        children: [
+          {
+            index: true,
+            element: <Heroes />,
+          },
+        ],
+      },
+    ]);
     const { getByTestId, queryByTestId } = render(
       <RouterProvider router={router} />
     );
@@ -84,14 +85,18 @@ describe('Heroes page', () => {
       .onDelete(`/heroes/${hero._id}`)
       .reply(404);
 
-    const router = createMemoryRouter([{
-      path:'/',
-      element: <Layout />,
-      children: [{
-        index: true,
-        element: <Heroes />
-      }]
-    }]);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Layout />,
+        children: [
+          {
+            index: true,
+            element: <Heroes />,
+          },
+        ],
+      },
+    ]);
     const { getByTestId, getByText } = render(
       <RouterProvider router={router} />
     );
@@ -116,14 +121,18 @@ describe('Heroes page', () => {
       .onPost('heroes')
       .reply(200, { _id, name, rank, location, status });
 
-    const router = createMemoryRouter([{
-      path:'/',
-      element: <Layout />,
-      children: [{
-        index: true,
-        element: <Heroes />
-      }]
-    }]);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Layout />,
+        children: [
+          {
+            index: true,
+            element: <Heroes />,
+          },
+        ],
+      },
+    ]);
     const { getByTestId, getByText } = render(
       <RouterProvider router={router} />
     );
@@ -157,20 +166,20 @@ describe('Heroes page', () => {
   it('should not be able to store a new hero', async () => {
     const { name, rank, location, status } = await factory.attrs('Hero');
 
-    apiMock
-      .onGet('heroes')
-      .reply(200, [])
-      .onPost('heroes')
-      .reply(400);
+    apiMock.onGet('heroes').reply(200, []).onPost('heroes').reply(400);
 
-    const router = createMemoryRouter([{
-      path:'/',
-      element: <Layout />,
-      children: [{
-        index: true,
-        element: <Heroes />
-      }]
-    }]);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Layout />,
+        children: [
+          {
+            index: true,
+            element: <Heroes />,
+          },
+        ],
+      },
+    ]);
     const { getByTestId, getByText } = render(
       <RouterProvider router={router} />
     );
@@ -203,11 +212,8 @@ describe('Heroes page', () => {
   });
 
   it('should be able to edit an hero', async () => {
-    const [
-      hero,
-      { name, rank, status, location },
-      ...rest
-    ] = await factory.attrsMany('Hero', 3);
+    const [hero, { name, rank, status, location }, ...rest] =
+      await factory.attrsMany('Hero', 3);
 
     apiMock
       .onGet('heroes')
@@ -215,14 +221,18 @@ describe('Heroes page', () => {
       .onPut(`/heroes/${hero._id}`)
       .reply(200, { _id: hero._id, name, status, rank, location });
 
-    const router = createMemoryRouter([{
-      path:'/',
-      element: <Layout />,
-      children: [{
-        index: true,
-        element: <Heroes />
-      }]
-    }]);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Layout />,
+        children: [
+          {
+            index: true,
+            element: <Heroes />,
+          },
+        ],
+      },
+    ]);
     const { getByTestId, getByText } = render(
       <RouterProvider router={router} />
     );
@@ -255,12 +265,7 @@ describe('Heroes page', () => {
     expect(getByText(name)).toBeInTheDocument();
     expect(getByTestId(`hero_rank_${hero._id}`)).toHaveTextContent(rank);
     expect(
-      getByText(
-        location.coordinates
-          .slice()
-          .reverse()
-          .join(', ')
-      )
+      getByText(location.coordinates.slice().reverse().join(', '))
     ).toBeInTheDocument();
     expect(getByTestId(`hero_status_${hero._id}`)).toHaveTextContent(
       getLabel(status)
@@ -268,11 +273,8 @@ describe('Heroes page', () => {
   });
 
   it('should not be able to edit an hero', async () => {
-    const [
-      hero,
-      { name, rank, status, location },
-      ...rest
-    ] = await factory.attrsMany('Hero', 3);
+    const [hero, { name, rank, status, location }, ...rest] =
+      await factory.attrsMany('Hero', 3);
 
     apiMock
       .onGet('heroes')
@@ -280,14 +282,18 @@ describe('Heroes page', () => {
       .onPut(`/heroes/${hero._id}`)
       .reply(404);
 
-    const router = createMemoryRouter([{
-      path:'/',
-      element: <Layout />,
-      children: [{
-        index: true,
-        element: <Heroes />
-      }]
-    }]);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Layout />,
+        children: [
+          {
+            index: true,
+            element: <Heroes />,
+          },
+        ],
+      },
+    ]);
     const { getByTestId, getByText } = render(
       <RouterProvider router={router} />
     );

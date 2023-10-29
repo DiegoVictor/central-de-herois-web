@@ -11,12 +11,10 @@ import factory from '../utils/factory';
 const apiMock = new MockAdapter(api);
 
 const mockRedirect = jest.fn();
-jest.mock('react-router-dom', () => {
-  return {
-    ...jest.requireActual('react-router-dom'),
-    redirect: (to) => mockRedirect(to)
-  }
-})
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  redirect: (to) => mockRedirect(to),
+}));
 
 describe('Login page', () => {
   beforeEach(async () => {
@@ -31,13 +29,13 @@ describe('Login page', () => {
 
     apiMock.onPost('sessions').reply(200, { user, token });
 
-    const router = createMemoryRouter([{
-      path:'/',
-      element: <Login />
-    }]);
-    const { getByTestId } = render(
-      <RouterProvider router={router} />
-    );
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Login />,
+      },
+    ]);
+    const { getByTestId } = render(<RouterProvider router={router} />);
 
     fireEvent.change(getByTestId('email'), {
       target: { value: email },
@@ -64,11 +62,13 @@ describe('Login page', () => {
     const email = faker.lorem.word();
     const password = faker.internet.password();
 
-    const router = createMemoryRouter([{
-      path:'/',
-      element: <Login />
-    }]);
-    const { getByTestId, getByText  } = render(
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Login />,
+      },
+    ]);
+    const { getByTestId, getByText } = render(
       <RouterProvider router={router} />
     );
 
@@ -93,16 +93,16 @@ describe('Login page', () => {
 
     apiMock.onPost('sessions').reply(400);
 
-    const router = createMemoryRouter([{
-      path:'/',
-      element: <Login />
-    }]);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Login />,
+      },
+    ]);
 
     router.window.alert = jest.fn();
 
-    const { getByTestId  } = render(
-      <RouterProvider router={router} />
-    );
+    const { getByTestId } = render(<RouterProvider router={router} />);
 
     fireEvent.change(getByTestId('email'), {
       target: { value: email },

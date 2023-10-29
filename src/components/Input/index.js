@@ -13,9 +13,7 @@ export function Input({ name, ...rest }) {
     registerField({
       name: fieldName,
       ref: inputRef,
-      getValue: (ref) => {
-        return ref.current.value;
-      },
+      getValue: (ref) => ref.current.value,
       setValue: (ref, value) => {
         ref.current.value = value;
       },

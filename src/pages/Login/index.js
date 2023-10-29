@@ -50,7 +50,7 @@ export function Login() {
         }
       }
     },
-    [context.token, context.user]
+    [context]
   );
 
   return (
@@ -92,4 +92,4 @@ export function Login() {
       </Row>
     </Container>
   );
-};
+}
