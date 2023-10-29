@@ -3,11 +3,11 @@ import MockAdapter from 'axios-mock-adapter';
 import { act, render, fireEvent, waitFor } from '@testing-library/react';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
-import factory from '../utils/factory';
 import api from '~/services/api';
 import { Heroes } from '~/pages/Heroes';
 import { getLabel } from '~/helpers/HeroStatuses';
 import { Layout } from '~/components/Layout';
+import factory from '../utils/factory';
 
 const apiMock = new MockAdapter(api);
 

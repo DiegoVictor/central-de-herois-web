@@ -5,9 +5,9 @@ import MockAdapter from 'axios-mock-adapter';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 import api from '~/services/api';
-import factory from '../utils/factory';
 import { Dashboard } from '~/pages/Dashboard';
 import { Layout } from '~/components/Layout';
+import factory from '../utils/factory';
 
 const apiMock = new MockAdapter(api);
 

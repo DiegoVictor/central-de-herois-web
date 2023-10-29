@@ -1,5 +1,10 @@
 import React from 'react';
-import { Route, RouterProvider } from 'react-router-dom';
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from 'react-router-dom';
 
 import { AuthRoute } from '~/routes/Route';
 import { Login } from '~/pages/Login';
