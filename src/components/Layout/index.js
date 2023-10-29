@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext, useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import NotificationsContext from '~/contexts/Notifications';
@@ -13,12 +12,12 @@ export function Layout() {
   const { token } = useContext(UserContext);
   const context = useMemo(
     () => ({
-          list: notifications,
-          update: (callback) => {
-            callback((notification) => {
-              setNotifications([...notifications, notification]);
-            });
-          },
+      list: notifications,
+      update: (callback) => {
+        callback((notification) => {
+          setNotifications([...notifications, notification]);
+        });
+      },
     }),
     [notifications]
   );
@@ -49,10 +48,3 @@ export function Layout() {
     </Container>
   );
 }
-
-Layout.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.arrayOf(PropTypes.node),
-  ]),
-};

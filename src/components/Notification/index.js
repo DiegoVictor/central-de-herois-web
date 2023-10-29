@@ -1,5 +1,6 @@
 import React from 'react';
 import { Toast } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 export function Notification({ title, message, ...rest }) {
   return (
@@ -11,3 +12,8 @@ export function Notification({ title, message, ...rest }) {
     </Toast>
   );
 }
+
+Notification.propTypes = {
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+};
