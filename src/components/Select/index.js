@@ -3,20 +3,20 @@ import PropTypes from 'prop-types';
 import { useField } from '@unform/core';
 
 export function Select({ name, children, ...rest }) {
-  const inputRef = useRef(null);
+  const selectRef = useRef(null);
 
   const { fieldName, defaultValue = '', registerField } = useField(name);
 
   useEffect(() => {
     registerField({
       name: fieldName,
-      ref: inputRef.current,
+      ref: selectRef.current,
       path: 'value',
     });
   }, [fieldName, registerField]);
 
   return (
-    <select ref={inputRef} defaultValue={defaultValue} {...rest}>
+    <select ref={selectRef} defaultValue={defaultValue} {...rest}>
       {children}
     </select>
   );
