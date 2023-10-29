@@ -24,4 +24,13 @@ export function Select({ name, children, ...rest }) {
 
 Select.propTypes = {
   name: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+    PropTypes.node,
+  ]),
+};
+
+Select.defaultProps = {
+  children: null,
 };
