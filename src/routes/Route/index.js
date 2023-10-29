@@ -4,30 +4,23 @@ import PropTypes from 'prop-types';
 
 import UserContext from '~/contexts/User';
 
-export function AuthRoute({
-  privated,
-  guest,
-  element: Component,
-  ...rest
-}) {
+export function AuthRoute({ privated, guest, element: Component, ...rest }) {
   const context = useContext(UserContext);
   const Page = () => {
     if (!context.token) {
       if (privated) {
-        return redirect("/");
+        return redirect('/');
       }
     }
 
     if (guest) {
-      return redirect("/dashboard");
+      return redirect('/dashboard');
     }
 
     return <Component {...props} />;
   };
 
-  return (
-    <Route {...rest} element={Page} />
-  );
+  return <Route {...rest} element={Page} />;
 }
 
 AuthRoute.propTypes = {
