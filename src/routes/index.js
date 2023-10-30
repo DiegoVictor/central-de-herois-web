@@ -1,26 +1,33 @@
 import React from 'react';
-import {
-  Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import { AuthRoute } from '~/routes/Route';
 import { Login } from '~/pages/Login';
 import { Dashboard } from '~/pages/Dashboard';
 import { Heroes } from '~/pages/Heroes';
 import { Layout } from '~/components/Layout';
+import { Guest } from './Guest';
+import { Privated } from './Privated';
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
-      <AuthRoute index guest element={Login} />
-      <AuthRoute path="/dashboard" privated element={Dashboard} />
-      <AuthRoute path="/heroes" privated element={Heroes} />
-    </Route>
-  )
-);
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <Guest element={Login} />,
+      },
+      {
+        path: '/dashboard',
+        element: <Privated element={Dashboard} />,
+      },
+      {
+        path: '/heroes',
+        element: <Privated element={Heroes} />,
+      },
+    ],
+  },
+]);
 
 export function Navigation() {
   return <RouterProvider router={router} />;
