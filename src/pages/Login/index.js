@@ -8,7 +8,11 @@ import api from '~/services/api';
 import { Input } from '~/components/Input';
 import { Box } from '~/components/Box';
 import { getValidationErrors } from '~/utils/getValidationErrors';
-import { redirect } from 'react-router-dom';
+
+const schema = Yup.object().shape({
+  email: Yup.string().email('Email inválido').required('O email é obrigatório'),
+  password: Yup.string().required('A senha é obrigatória'),
+});
 
 export function Login() {
   const formRef = useRef(null);
@@ -18,13 +22,6 @@ export function Login() {
     async ({ email, password }) => {
       try {
         formRef.current.setErrors({});
-
-        const schema = Yup.object().shape({
-          email: Yup.string()
-            .email('Email inválido')
-            .required('O email é obrigatório'),
-          password: Yup.string().required('A senha é obrigatória'),
-        });
 
         await schema.validate(
           { email, password },
