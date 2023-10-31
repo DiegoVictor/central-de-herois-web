@@ -5,6 +5,7 @@ import { Login } from '~/pages/Login';
 import { Dashboard } from '~/pages/Dashboard';
 import { Heroes } from '~/pages/Heroes';
 import { Layout } from '~/components/Layout';
+import { UserProvider } from '~/contexts/User';
 import { Guest } from './Guest';
 import { Privated } from './Privated';
 
@@ -30,4 +31,9 @@ const router = createBrowserRouter([
 ]);
 
 export function App() {
+  return (
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
+  );
 }
