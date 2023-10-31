@@ -29,6 +29,5 @@ const router = createBrowserRouter([
   },
 ]);
 
-export function Navigation() {
-  return <RouterProvider router={router} />;
+export function App() {
 }
