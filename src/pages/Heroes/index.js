@@ -32,7 +32,7 @@ export function Heroes() {
   const googleMapUrl = useMemo(() => '//www.google.com.br/maps/place/', []);
 
   const handleRemoveHero = useCallback(
-    async (id, notify) => {
+    async (id) => {
       try {
         await api.delete(`/heroes/${id}`, {
           headers: {
@@ -41,12 +41,7 @@ export function Heroes() {
         });
         setHeroes(heroes.filter((hero) => hero._id !== id));
       } catch (err) {
-        notify({
-          id: new Date().getTime(),
-          title: 'Erro',
-          message: 'Não foi possivel remover o heroi, tente novamente!',
-          show: true,
-        });
+        alert('Não foi possivel remover o heroi, tente novamente!');
       }
     },
     [heroes, token]
@@ -81,12 +76,7 @@ export function Heroes() {
               })
             );
           } catch (err) {
-            notify({
-              id: new Date().getTime(),
-              title: 'Erro',
-              message: 'Não foi possivel atualizar o heroi, tente novamente!',
-              show: true,
-            });
+            alert('Não foi possivel atualizar o heroi, tente novamente!');
           }
         } else {
           try {
@@ -99,20 +89,11 @@ export function Heroes() {
                 },
               }
             );
-            notify({
-              id: new Date().getTime(),
-              title: 'Sucesso',
-              message: 'Heroi cadastrado com sucesso!',
-              show: true,
-            });
+
+
             setHeroes([...heroes, response.data]);
           } catch (err) {
-            notify({
-              id: new Date().getTime(),
-              title: 'Erro',
-              message: 'Não foi possivel criar o heroi, tente novamente!',
-              show: true,
-            });
+            alert('Não foi possivel criar o heroi, tente novamente!');
           }
         }
         setHero(null);
@@ -147,9 +128,6 @@ export function Heroes() {
               Novo
             </Button>
           </div>
-          <NotificationsContext.Consumer>
-            {({ update }) => (
-              <>
                 <Table hover striped size="sm">
                   <thead>
                     <tr>
@@ -294,9 +272,6 @@ export function Heroes() {
                     </ButtonGroup>
                   </Form>
                 </Modal>
-              </>
-            )}
-          </NotificationsContext.Consumer>
         </Col>
       </Row>
     </Container>
