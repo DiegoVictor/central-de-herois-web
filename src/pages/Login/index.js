@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useRef } from 'react';
 import { Container, Col, Row, Button, Form as Frm } from 'react-bootstrap';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
+import { redirect } from 'react-router-dom';
 
 import UserContext from '~/contexts/User';
 import api from '~/services/api';
@@ -16,7 +17,7 @@ const schema = Yup.object().shape({
 
 export function Login() {
   const formRef = useRef(null);
-  const context = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const handleLogin = useCallback(
     async ({ email, password }) => {
@@ -31,10 +32,10 @@ export function Login() {
         );
 
         const { data } = await api.post('sessions', { email, password });
-
-        localStorage.setItem('iheroes_user', JSON.stringify(data));
-        context.token = data.token;
-        context.user = data.user;
+        setUser({
+          ...data.user,
+          token: data.token,
+        });
 
         redirect('/dashboard');
       } catch (err) {
@@ -47,7 +48,7 @@ export function Login() {
         }
       }
     },
-    [context]
+    [setUser]
   );
 
   return (
