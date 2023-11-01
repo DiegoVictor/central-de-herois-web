@@ -16,8 +16,6 @@ import {
 import { Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 
-import UserContext from '~/contexts/User';
-import NotificationsContext from '~/contexts/Notifications';
 import { getLabel } from '~/helpers/HeroStatuses';
 import api from '~/services/api';
 import { Select } from '~/components/Select';
@@ -28,23 +26,19 @@ import { Container } from './styles';
 export function Heroes() {
   const [heroes, setHeroes] = useState([]);
   const [hero, setHero] = useState(null);
-  const { token } = useContext(UserContext);
   const googleMapUrl = useMemo(() => '//www.google.com.br/maps/place/', []);
 
   const handleRemoveHero = useCallback(
     async (id) => {
       try {
-        await api.delete(`/heroes/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await api.delete(`/heroes/${id}`);
+
         setHeroes(heroes.filter((hero) => hero._id !== id));
       } catch (err) {
         alert('Não foi possivel remover o heroi, tente novamente!');
       }
     },
-    [heroes, token]
+    [heroes]
   );
 
   const handleHeroForm = useCallback(
@@ -52,21 +46,14 @@ export function Heroes() {
       (async () => {
         if (hero._id) {
           try {
-            const response = await api.put(
-              `/heroes/${hero._id}`,
-              { name, rank, status, latitude, longitude },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-            notify({
-              id: new Date().getTime(),
-              title: 'Sucesso',
-              message: 'Heroi atualizado com sucesso!',
-              show: true,
+            const response = await api.put(`/heroes/${hero._id}`, {
+              name,
+              rank,
+              status,
+              latitude,
+              longitude,
             });
+
             setHeroes(
               heroes.map((h) => {
                 if (h._id === hero._id) {
@@ -80,16 +67,13 @@ export function Heroes() {
           }
         } else {
           try {
-            const response = await api.post(
-              'heroes',
-              { name, rank, status, latitude, longitude },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-
+            const response = await api.post('heroes', {
+              name,
+              rank,
+              status,
+              latitude,
+              longitude,
+            });
 
             setHeroes([...heroes, response.data]);
           } catch (err) {
@@ -99,7 +83,7 @@ export function Heroes() {
         setHero(null);
       })();
     },
-    [token, hero, heroes]
+    [heroes]
   );
 
   useEffect(() => {
@@ -117,7 +101,7 @@ export function Heroes() {
         }))
       );
     })();
-  }, [token]);
+  }, []);
 
   return (
     <Container>
