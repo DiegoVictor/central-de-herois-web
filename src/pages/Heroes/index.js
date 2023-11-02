@@ -25,7 +25,7 @@ import { Container } from './styles';
 
 export function Heroes() {
   const [heroes, setHeroes] = useState([]);
-  const [hero, setHero] = useState(null);
+  const [formData, setFormData] = useState(null);
   const googleMapUrl = useMemo(() => '//www.google.com.br/maps/place/', []);
 
   const handleRemoveHero = useCallback(
@@ -80,7 +80,7 @@ export function Heroes() {
             alert('Não foi possivel criar o heroi, tente novamente!');
           }
         }
-        setHero(null);
+        setFormData(null);
       })();
     },
     [heroes]
@@ -108,7 +108,7 @@ export function Heroes() {
       <Row>
         <Col>
           <div className="text-right">
-            <Button data-testid="new" onClick={() => setHero({})} size="sm">
+            <Button data-testid="new" onClick={() => setFormData({})} size="sm">
               Novo
             </Button>
           </div>
@@ -151,7 +151,7 @@ export function Heroes() {
                               data-testid={`hero_edit_${hero._id}`}
                               size="sm"
                               onClick={() => {
-                                setHero(hero);
+                          setFormData(hero);
                               }}
                             >
                               Editar
@@ -161,9 +161,7 @@ export function Heroes() {
                               disabled={hero.status === 'fighting'}
                               size="sm"
                               onClick={() => {
-                                update((notify) => {
-                                  handleRemoveHero(hero._id, notify);
-                                });
+                          handleRemoveHero(hero._id);
                               }}
                             >
                               Remover
@@ -175,13 +173,15 @@ export function Heroes() {
                   </tbody>
                 </Table>
 
-                <Modal title="Heroi" show={!!hero} onHide={() => setHero(null)}>
+          <Modal
+            title="Heroi"
+            show={!!formData}
+            onHide={() => setFormData(null)}
+          >
                   <Form
-                    initialData={hero}
+              initialData={formData}
                     onSubmit={(data) => {
-                      update((notify) => {
-                        handleHeroForm(data, notify);
-                      });
+                handleHeroForm(data);
                     }}
                   >
                     <Frm.Group>
@@ -228,7 +228,7 @@ export function Heroes() {
                         </Frm.Group>
                       </Col>
                     </Row>
-                    {hero && hero.status !== 'fighting' && (
+              {formData && formData.status !== 'fighting' && (
                       <Frm.Group>
                         <Frm.Label>Status</Frm.Label>
                         <Select
@@ -246,7 +246,7 @@ export function Heroes() {
                       <Button
                         data-testid="cancel"
                         variant="secondary"
-                        onClick={() => setHero(null)}
+                  onClick={() => setFormData(null)}
                       >
                         Cancelar
                       </Button>
@@ -260,4 +260,4 @@ export function Heroes() {
       </Row>
     </Container>
   );
-};
+}
