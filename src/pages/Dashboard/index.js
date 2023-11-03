@@ -74,37 +74,18 @@ export function Dashboard() {
   }, []);
 
   const handleMonsterDefeated = useCallback(
-    ({ heroes }, notify) => {
-      (async () => {
+    async ({ monsterId, heroes }) => {
         try {
-          await api.put(
-            `/monsters/${monster._id}/defeated`,
-            { heroes },
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
+        await api.put(`/monsters/${monsterId}/defeated`, { heroes });
 
-          setMonsters(monsters.filter((m) => m._id !== monster._id));
-          setHistory([...history, monster]);
-
-          notify({
-            id: new Date().getTime(),
-            title: 'Sucesso',
-            message: 'Ameaça atualizada com sucesso!',
-            show: true,
-          });
+        reList();
         } catch (err) {
-          notify({
-            id: new Date().getTime(),
-            title: 'Erro',
-            message: 'Não foi possivel atualizar o status da ameaça!',
-            show: true,
-          });
+        alert('Não foi possivel atualizar o status da ameaça!');
         }
 
-        setMonster(null);
-      })();
+      setFormData(null);
     },
-    [history, monster, monsters, token]
+    [reList]
   );
 
   useEffect(() => {
