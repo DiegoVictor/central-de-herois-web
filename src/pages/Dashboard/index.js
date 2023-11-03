@@ -54,17 +54,24 @@ export function Dashboard() {
   const [monsters, setMonsters] = useState([]);
   const [history, setHistory] = useState([]);
 
-  const reList = useCallback(async () => {
-    const { data } = await api.get('monsters', {
-      params: {
-        status: 'fighting',
-      },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setMonsters(data);
-  }, [token]);
+  const reList = useCallback(async (key) => {
+    switch (key) {
+      case 'fighting': {
+        return getFightingMonsters().then(setMonsters);
+      }
+
+      case 'defeated': {
+        return getDefeatedMonsters().then(setHistory);
+      }
+
+      default: {
+        return Promise.all([
+          getFightingMonsters().then(setMonsters),
+          getDefeatedMonsters().then(setHistory),
+        ]);
+      }
+    }
+  }, []);
 
   const handleMonsterDefeated = useCallback(
     ({ heroes }, notify) => {
@@ -101,30 +108,11 @@ export function Dashboard() {
   );
 
   useEffect(() => {
-    reList().finally(() => {
-      setInterval(reList, 60 * 1000);
+    reList('fighting').finally(() => {
+      setInterval(() => reList('fighting'), 60 * 1000);
     });
-  }, [reList]);
-
-  useEffect(() => {
-    (async () => {
-      const { data } = await api.get('monsters', {
-        params: {
-          status: 'defeated',
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setHistory(
-        data.map((monster) => ({
-          ...monster,
-          updatedAt: new Date(monster.updatedAt).toLocaleString(),
-        }))
-      );
-    })();
-  }, [token]);
+    reList('defeated');
+  });
 
   return (
     <Container>
