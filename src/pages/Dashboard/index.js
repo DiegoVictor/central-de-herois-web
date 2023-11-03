@@ -27,6 +27,26 @@ import { Modal } from '~/components/Modal';
 import { Select } from '~/components/Select';
 import { Container } from './styles';
 
+async function getFightingMonsters() {
+  const { data } = await api.get('monsters', {
+    params: {
+      status: 'fighting',
+    },
+  });
+
+  return data;
+}
+
+async function getDefeatedMonsters() {
+  const { data } = await api.get('monsters', {
+    params: {
+      status: 'defeated',
+    },
+  });
+
+  return data;
+}
+
 export function Dashboard() {
   const googleMapUrl = useMemo(() => '//www.google.com.br/maps/place/', []);
   const { token } = useContext(UserContext);
