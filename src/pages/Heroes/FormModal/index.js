@@ -7,19 +7,15 @@ import { Input } from '~/components/Input';
 import { Select } from '~/components/Select';
 import { Modal } from '~/components/Modal';
 
-export function FormModal({ formData = {}, handleHeroForm, onHide }) {
+export function FormModal({ formData = null, handleHeroForm, onHide }) {
   return (
-    <Modal title="Heroi" onHide={onHide}>
-      <Unform
-        initialData={formData}
-        onSubmit={(data) => {
-          handleHeroForm(data);
-        }}
-      >
+    <Modal title="Heroi" show={formData} onHide={onHide}>
+      <Unform initialData={formData} onSubmit={handleHeroForm}>
         <Form.Group>
           <Form.Label>Nome</Form.Label>
           <Input className="form-control" name="name" data-testid="name" />
         </Form.Group>
+
         <Form.Group>
           <Form.Label>Rank</Form.Label>
           <Select className="form-control" name="rank" data-testid="rank">
@@ -30,6 +26,7 @@ export function FormModal({ formData = {}, handleHeroForm, onHide }) {
             ))}
           </Select>
         </Form.Group>
+
         <Row>
           <Col>
             <Form.Group>
@@ -52,7 +49,8 @@ export function FormModal({ formData = {}, handleHeroForm, onHide }) {
             </Form.Group>
           </Col>
         </Row>
-        {formData && formData.status !== 'fighting' && (
+
+        {formData?.status !== 'fighting' && (
           <Form.Group>
             <Form.Label>Status</Form.Label>
             <Select className="form-control" name="status" data-testid="status">
@@ -87,5 +85,5 @@ FormModal.propTypes = {
 };
 
 FormModal.defaultProps = {
-  formData: {},
+  formData: null,
 };
