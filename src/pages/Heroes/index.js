@@ -6,6 +6,14 @@ import { Container } from './styles';
 import { FormModal } from './FormModal';
 import { HeroesTable } from './HeroesTable';
 
+const createOrUpdate = async (id, data) => {
+  if (id) {
+    return api.put(`/heroes/${id}`, data);
+  }
+
+  return api.post('heroes', data);
+};
+
 export function Heroes() {
   const [heroes, setHeroes] = useState([]);
   const [formData, setFormData] = useState(null);
@@ -36,46 +44,23 @@ export function Heroes() {
   const handleHeroForm = useCallback(
     ({ _id, name, rank, status, latitude, longitude }) => {
       (async () => {
-        if (_id) {
-          try {
-            const response = await api.put(`/heroes/${_id}`, {
-              name,
-              rank,
-              status,
-              latitude,
-              longitude,
-            });
+        try {
+          await createOrUpdate(_id, {
+            name,
+            rank,
+            status,
+            latitude,
+            longitude,
+          });
 
-            setHeroes(
-              heroes.map((h) => {
-                if (h._id === _id) {
-                  return response.data;
-                }
-                return h;
-              })
-            );
-          } catch (err) {
-            alert('Não foi possivel atualizar o heroi, tente novamente!');
-          }
-        } else {
-          try {
-            const response = await api.post('heroes', {
-              name,
-              rank,
-              status,
-              latitude,
-              longitude,
-            });
-
-            setHeroes([...heroes, response.data]);
-          } catch (err) {
-            alert('Não foi possivel criar o heroi, tente novamente!');
-          }
+          await reList();
+          setFormData(null);
+        } catch (err) {
+          alert('Não foi possivel criar/atualizar o heroi, tente novamente!');
         }
-        setFormData(null);
       })();
     },
-    [heroes]
+    [reList]
   );
 
   useEffect(reList);
