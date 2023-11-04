@@ -10,17 +10,27 @@ export function Heroes() {
   const [heroes, setHeroes] = useState([]);
   const [formData, setFormData] = useState(null);
 
+  const reList = useCallback(async () => {
+    try {
+      const { data } = await api.get('heroes');
+
+      setHeroes(data);
+    } catch {
+      alert('Não foi possivel atualizar a lista de herois');
+    }
+  }, []);
+
   const handleRemoveHero = useCallback(
     async (id) => {
       try {
         await api.delete(`/heroes/${id}`);
 
-        setHeroes(heroes.filter(({ _id }) => _id !== id));
+        await reList();
       } catch (err) {
         alert('Não foi possivel remover o heroi, tente novamente!');
       }
     },
-    [heroes]
+    [reList]
   );
 
   const handleHeroForm = useCallback(
@@ -68,13 +78,7 @@ export function Heroes() {
     [heroes]
   );
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await api.get('heroes');
-
-      setHeroes(data);
-    })();
-  }, []);
+  useEffect(reList);
 
   return (
     <Container>
