@@ -90,11 +90,11 @@ export function Heroes() {
             handleRemoveHero={handleRemoveHero}
             setFormData={setFormData}
           />
-          (
+
           <FormModal
             formData={formData}
-            handleHeroForm={handleHeroForm}
             onHide={() => setFormData(null)}
+            handleHeroForm={handleHeroForm}
           />
         </Col>
       </Row>
