@@ -1,26 +1,16 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import {
-  Form as Frm,
-  Table,
-  Row,
-  Col,
-  Button,
-  ButtonGroup,
-} from 'react-bootstrap';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Table, Row, Col, Button, ButtonGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { Form } from '@unform/web';
 
 import { getLabel } from '~/helpers/HeroStatuses';
 import api from '~/services/api';
-import { Select } from '~/components/Select';
-import { Input } from '~/components/Input';
-import { Modal } from '~/components/Modal';
+import { googleMapUrl } from '~/utils/constants';
 import { Container } from './styles';
+import { FormModal } from './FormModal';
 
 export function Heroes() {
   const [heroes, setHeroes] = useState([]);
   const [formData, setFormData] = useState(null);
-  const googleMapUrl = useMemo(() => '//www.google.com.br/maps/place/', []);
 
   const handleRemoveHero = useCallback(
     async (id) => {
@@ -159,85 +149,13 @@ export function Heroes() {
             </tbody>
           </Table>
 
-          <Modal
-            title="Heroi"
-            show={!!formData}
-            onHide={() => setFormData(null)}
-          >
-            <Form
-              initialData={formData}
-              onSubmit={(data) => {
-                handleHeroForm(data);
-              }}
-            >
-              <Frm.Group>
-                <Frm.Label>Nome</Frm.Label>
-                <Input
-                  className="form-control"
-                  name="name"
-                  data-testid="name"
-                />
-              </Frm.Group>
-              <Frm.Group>
-                <Frm.Label>Rank</Frm.Label>
-                <Select className="form-control" name="rank" data-testid="rank">
-                  {['S', 'A', 'B', 'C'].map((rank) => (
-                    <option key={rank} value={rank}>
-                      {rank}
-                    </option>
-                  ))}
-                </Select>
-              </Frm.Group>
-              <Row>
-                <Col>
-                  <Frm.Group>
-                    <Frm.Label>Latitude</Frm.Label>
-                    <Input
-                      className="form-control"
-                      name="latitude"
-                      data-testid="latitude"
-                    />
-                  </Frm.Group>
-                </Col>
-                <Col>
-                  <Frm.Group>
-                    <Frm.Label>Longitude</Frm.Label>
-                    <Input
-                      className="form-control"
-                      name="longitude"
-                      data-testid="longitude"
-                    />
-                  </Frm.Group>
-                </Col>
-              </Row>
-              {formData && formData.status !== 'fighting' && (
-                <Frm.Group>
-                  <Frm.Label>Status</Frm.Label>
-                  <Select
-                    className="form-control"
-                    name="status"
-                    data-testid="status"
-                  >
-                    <option value="resting">Descasando</option>
-                    <option value="out_of_combat">Fora de Combate</option>
-                    <option value="patrolling">Patrulhando</option>
-                  </Select>
-                </Frm.Group>
-              )}
-              <ButtonGroup>
-                <Button
-                  data-testid="cancel"
-                  variant="secondary"
-                  onClick={() => setFormData(null)}
-                >
-                  Cancelar
-                </Button>
-                <Button data-testid="submit" type="submit">
-                  Enviar
-                </Button>
-              </ButtonGroup>
-            </Form>
-          </Modal>
+          {formData && (
+            <FormModal
+              formData={formData}
+              handleHeroForm={handleHeroForm}
+              onHide={() => setFormData(null)}
+            />
+          )}
         </Col>
       </Row>
     </Container>
