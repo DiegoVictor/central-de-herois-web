@@ -74,13 +74,7 @@ export function Heroes() {
     (async () => {
       const { data } = await api.get('heroes');
 
-      setHeroes(
-        data.map(({ coordinates: [longitude, latitude], ...props }) => ({
-          ...props,
-          latitude,
-          longitude,
-        }))
-      );
+      setHeroes(data);
     })();
   }, []);
 
