@@ -259,65 +259,11 @@ export function Dashboard() {
         </tbody>
       </Table>
 
-      <NotificationsContext.Consumer>
-        {({ update }) => (
-          <Modal
-            title="Ameaça"
-            show={!!monster}
-            onHide={() => setMonster(null)}
-          >
-            <Form
-              initialData={monster}
-              onSubmit={(data) => {
-                update((notify) => {
-                  handleMonsterDefeated(data, notify);
-                });
-              }}
-            >
-              <Frm.Group>
-                <Frm.Label>Status do(s) herois após o combate:</Frm.Label>
-              </Frm.Group>
-              <Row>
-                {monster &&
-                  monster.heroes.map((hero, index) => (
-                    <Col xs={6} key={hero._id}>
-                      <Frm.Group>
-                        <Frm.Label>{hero.name}</Frm.Label>
-                        <Input
-                          type="hidden"
-                          name={`heroes[${index}][_id]`}
-                          defaultValue={hero._id}
-                        />
-                        <Select
-                          className="form-control"
-                          key={hero._id}
-                          name={`heroes[${index}][status]`}
-                          data-testid={`hero_status_${hero._id}`}
-                        >
-                          <option value="resting">Descansando</option>
-                          <option value="patrolling">Patrulhando</option>
-                          <option value="out_of_combat">Fora de combate</option>
-                        </Select>
-                      </Frm.Group>
-                    </Col>
-                  ))}
-              </Row>
-              <ButtonGroup>
-                <Button
-                  data-testid="cancel"
-                  variant="secondary"
-                  onClick={() => setMonster(null)}
-                >
-                  Cancelar
-                </Button>
-                <Button data-testid="submit" type="submit">
-                  Enviar
-                </Button>
-              </ButtonGroup>
-            </Form>
-          </Modal>
-        )}
-      </NotificationsContext.Consumer>
+      <FormModal
+        formData={formData}
+        handleMonsterDefeated={handleMonsterDefeated}
+        onHide={() => setFormData(null)}
+      />
     </Container>
   );
 }
