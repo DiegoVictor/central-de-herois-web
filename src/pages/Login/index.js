@@ -80,7 +80,7 @@ export function Login() {
                 data-testid="submit"
                 type="submit"
                 size="lg"
-                onClick={() => formRef.current?.submitForm()}
+                onClick={formRef.current?.submitForm}
               >
                 Entrar
               </Button>
