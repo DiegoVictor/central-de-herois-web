@@ -186,78 +186,7 @@ export function Dashboard() {
           {history.length}
         </Badge>
       </h5>
-      <Table hover striped size="sm">
-        <thead>
-          <tr>
-            <th>Heroi(s)</th>
-            <th>Ameaça</th>
-            <th>Localização</th>
-            <th>Última atualização</th>
-          </tr>
-        </thead>
-        <tbody>
-          {history.length === 0 && (
-            <tr>
-              <td colSpan="4" className="text-center">
-                Sem resultados
-              </td>
-            </tr>
-          )}
-          {history.map((monster) => (
-            <tr key={monster._id}>
-              <td>
-                {monster.heroes.map((hero) => (
-                  <OverlayTrigger
-                    key={hero._id}
-                    trigger={['hover', 'focus']}
-                    placement="bottom"
-                    overlay={
-                      <Popover>
-                        <Popover.Header as="h3">{hero.name}</Popover.Header>
-                        <Popover.Body>
-                          <p>{hero.description}</p>
-                        </Popover.Body>
-                      </Popover>
-                    }
-                  >
-                    <div>
-                      {hero.name}
-                      <Badge variant="secondary">
-                        <div data-testid={`hero_rank_${hero._id}`}>
-                          {hero.rank}
-                        </div>
-                      </Badge>
-                    </div>
-                  </OverlayTrigger>
-                ))}
-              </td>
-              <td>
-                <span className="d-flex align-items-center">
-                  {monster.name}{' '}
-                  <Badge
-                    className="ml-1"
-                    variant="secondary"
-                    data-testid={`monster_rank_${monster._id}`}
-                  >
-                    {monster.rank}
-                  </Badge>
-                </span>
-              </td>
-              <td>
-                <Link
-                  to={`${googleMapUrl + monster.location.coordinates[1]},${
-                    monster.location.coordinates[0]
-                  }`}
-                  target="_blank"
-                >
-                  {monster.location.coordinates.slice().reverse().join(', ')}
-                </Link>
-              </td>
-              <td>{monster.updatedAt}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <DefeatedTable monsters={defeated} />
 
       <FormModal
         formData={formData}
