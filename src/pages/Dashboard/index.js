@@ -7,6 +7,8 @@ import { DefeatedTable } from './DefeatedTable';
 import { FormModal } from './FormModal';
 import { Container } from './styles';
 
+const ONE_MINUTE = 60 * 1000;
+
 export function Dashboard() {
   const [monsters, setMonsters] = useState([]);
   const [defeated, setDefeated] = useState([]);
@@ -59,10 +61,10 @@ export function Dashboard() {
   );
 
   useEffect(() => {
-    reList('fighting').finally(() => {
-      setInterval(() => reList('fighting'), 60 * 1000);
-    });
-    reList('defeated');
+    (async () => {
+      await reList();
+      setInterval(() => reList('fighting'), ONE_MINUTE);
+    })();
   });
 
   return (
