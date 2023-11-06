@@ -13,47 +13,32 @@ export function Dashboard() {
 
   const [formData, setFormData] = useState(null);
 
+  const reList = useCallback(async (key) => {
+    switch (key) {
+      case 'fighting': {
   const { data } = await api.get('monsters', {
     params: {
       status: 'fighting',
     },
   });
 
-  return data;
+        setMonsters(data);
+        break;
 }
 
-async function getDefeatedMonsters() {
+      case 'defeated': {
   const { data } = await api.get('monsters', {
     params: {
       status: 'defeated',
     },
   });
 
-  return data;
-}
-
-export function Dashboard() {
-  const googleMapUrl = useMemo(() => '//www.google.com.br/maps/place/', []);
-  const { token } = useContext(UserContext);
-  const [monster, setMonster] = useState(null);
-  const [monsters, setMonsters] = useState([]);
-  const [history, setHistory] = useState([]);
-
-  const reList = useCallback(async (key) => {
-    switch (key) {
-      case 'fighting': {
-        return getFightingMonsters().then(setMonsters);
-      }
-
-      case 'defeated': {
-        return getDefeatedMonsters().then(setHistory);
+        setDefeated(data);
+        break;
       }
 
       default: {
-        return Promise.all([
-          getFightingMonsters().then(setMonsters),
-          getDefeatedMonsters().then(setHistory),
-        ]);
+        await Promise.all([reList('fighting'), reList('defeated')]);
       }
     }
   }, []);
