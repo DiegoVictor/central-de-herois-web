@@ -7,7 +7,12 @@ import { DefeatedTable } from './DefeatedTable';
 import { FormModal } from './FormModal';
 import { Container } from './styles';
 
-async function getFightingMonsters() {
+export function Dashboard() {
+  const [monsters, setMonsters] = useState([]);
+  const [defeated, setDefeated] = useState([]);
+
+  const [formData, setFormData] = useState(null);
+
   const { data } = await api.get('monsters', {
     params: {
       status: 'fighting',
