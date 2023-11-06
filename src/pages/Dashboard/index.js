@@ -18,22 +18,22 @@ export function Dashboard() {
   const reList = useCallback(async (key) => {
     switch (key) {
       case 'fighting': {
-  const { data } = await api.get('monsters', {
-    params: {
-      status: 'fighting',
-    },
-  });
+        const { data } = await api.get('monsters', {
+          params: {
+            status: 'fighting',
+          },
+        });
 
         setMonsters(data);
         break;
-}
+      }
 
       case 'defeated': {
-  const { data } = await api.get('monsters', {
-    params: {
-      status: 'defeated',
-    },
-  });
+        const { data } = await api.get('monsters', {
+          params: {
+            status: 'defeated',
+          },
+        });
 
         setDefeated(data);
         break;
@@ -47,14 +47,14 @@ export function Dashboard() {
 
   const handleMonsterDefeated = useCallback(
     async ({ monsterId, heroes }) => {
-        try {
+      try {
         await api.put(`/monsters/${monsterId}/defeated`, { heroes });
 
         await reList();
         setFormData(null);
-        } catch (err) {
+      } catch (err) {
         alert('Não foi possivel atualizar o status da ameaça!');
-        }
+      }
     },
     [reList]
   );
