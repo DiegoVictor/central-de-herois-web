@@ -1,26 +1,6 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useMemo,
-  useCallback,
-} from 'react';
-import {
-  Form as Frm,
-  Table,
-  OverlayTrigger,
-  Popover,
-  Badge,
-  Button,
-  Row,
-  Col,
-  ButtonGroup,
-} from 'react-bootstrap';
-import { Form } from '@unform/web';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Badge } from 'react-bootstrap';
 
-import NotificationsContext from '~/contexts/Notifications';
-import UserContext from '~/contexts/User';
 import api from '~/services/api';
 import { FightingTable } from './FightingTable';
 import { DefeatedTable } from './DefeatedTable';
