@@ -22,9 +22,9 @@ import { Link } from 'react-router-dom';
 import NotificationsContext from '~/contexts/Notifications';
 import UserContext from '~/contexts/User';
 import api from '~/services/api';
-import { Input } from '~/components/Input';
-import { Modal } from '~/components/Modal';
-import { Select } from '~/components/Select';
+import { FightingTable } from './FightingTable';
+import { DefeatedTable } from './DefeatedTable';
+import { FormModal } from './FormModal';
 import { Container } from './styles';
 
 async function getFightingMonsters() {
