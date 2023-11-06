@@ -50,12 +50,11 @@ export function Dashboard() {
         try {
         await api.put(`/monsters/${monsterId}/defeated`, { heroes });
 
-        reList();
+        await reList();
+        setFormData(null);
         } catch (err) {
         alert('Não foi possivel atualizar o status da ameaça!');
         }
-
-      setFormData(null);
     },
     [reList]
   );
@@ -80,7 +79,7 @@ export function Dashboard() {
       <h5 className="d-flex mt-5 align-items-center">
         Combatidos
         <Badge className="ml-1" variant="primary">
-          {history.length}
+          {defeated.length}
         </Badge>
       </h5>
       <DefeatedTable monsters={defeated} />
