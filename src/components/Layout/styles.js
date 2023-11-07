@@ -8,12 +8,6 @@ export const Container = styled.div`
   padding: 0px 20px;
 `;
 
-export const Notifications = styled.div`
-  position: fixed;
-  right: 10px;
-  top: 10px;
-`;
-
 export default createGlobalStyle`
   * {
     box-sizing: border-box;
