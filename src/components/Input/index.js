@@ -24,10 +24,10 @@ export function Input({ name, ...rest }) {
   }, [fieldName, registerField]);
 
   return (
-    <>
+    <div>
       <input ref={inputRef} defaultValue={defaultValue} {...rest} />
       {error && <Error>{error}</Error>}
-    </>
+    </div>
   );
 }
 
