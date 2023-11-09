@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Nav } from 'react-bootstrap';
 
+import UserContext from '~/contexts/User';
 import { Link } from '~/components/Link';
 import { Container } from './styles';
 
-export function Menu() {
+export function NavBar() {
+  const { token } = useContext(UserContext);
+
+  if (!token) {
+    return null;
+  }
+
   return (
     <Container>
       <Nav.Item>
