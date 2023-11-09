@@ -4,7 +4,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Login } from '~/pages/Login';
 import { Dashboard } from '~/pages/Dashboard';
 import { Heroes } from '~/pages/Heroes';
-import { Layout } from '~/components/Layout';
+import { NavBar } from '~/components/NavBar';
 import { UserProvider } from '~/contexts/User';
 import { Guest } from './Guest';
 import { Privated } from './Privated';
@@ -12,7 +12,6 @@ import { Privated } from './Privated';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
     children: [
       {
         index: true,
@@ -33,6 +32,7 @@ const router = createBrowserRouter([
 export function Routes() {
   return (
     <UserProvider>
+      <NavBar />
       <RouterProvider router={router} />
     </UserProvider>
   );
