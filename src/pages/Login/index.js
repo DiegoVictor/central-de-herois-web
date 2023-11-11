@@ -4,7 +4,7 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { redirect } from 'react-router-dom';
 
-import UserContext from '~/contexts/User';
+import { UserContext } from '~/contexts/User';
 import api from '~/services/api';
 import { Input } from '~/components/Input';
 import { Box } from '~/components/Box';

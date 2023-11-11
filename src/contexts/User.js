@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { setAuthHeader } from '~/services/api';
 
-const UserContext = createContext({});
+export const UserContext = createContext({});
 
 export function UserProvider({ children }) {
   const [user, setUser] = useState(() => {
