@@ -65,14 +65,16 @@ export function HeroesTable({ heroes, handleRemoveHero, setFormData }) {
 }
 
 HeroesTable.propTypes = {
-  heroes: PropTypes.arrayOf({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    rank: PropTypes.string.isRequired,
-    latitude: PropTypes.string.isRequired,
-    longitude: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
-  }).isRequired,
+  heroes: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      name: PropTypes.string.isRequired,
+      rank: PropTypes.string.isRequired,
+      latitude: PropTypes.string.isRequired,
+      longitude: PropTypes.string.isRequired,
+      status: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   handleRemoveHero: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
 };
