@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useRef } from 'react';
-import { Container, Col, Row, Button, Form as Frm } from 'react-bootstrap';
-import { Form } from '@unform/web';
+import { Container, Col, Row, Button, Form } from 'react-bootstrap';
+import { Form as Unform } from '@unform/web';
 import * as Yup from 'yup';
 import { redirect } from 'react-router-dom';
 
@@ -56,25 +56,25 @@ export function Login() {
       <Row className="justify-content-center h-100">
         <Col className="d-flex align-items-center">
           <Box>
-            <Form ref={formRef} onSubmit={handleLogin}>
-              <Frm.Group>
-                <Frm.Label>Email</Frm.Label>
+            <Unform ref={formRef} onSubmit={handleLogin}>
+              <Form.Group>
+                <Form.Label>Email</Form.Label>
                 <Input
                   data-testid="email"
                   type="email"
                   className="form-control form-control-lg"
                   name="email"
                 />
-              </Frm.Group>
-              <Frm.Group>
-                <Frm.Label>Senha</Frm.Label>
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Senha</Form.Label>
                 <Input
                   data-testid="password"
                   type="password"
                   className="form-control form-control-lg"
                   name="password"
                 />
-              </Frm.Group>
+              </Form.Group>
 
               <Button
                 data-testid="submit"
@@ -84,7 +84,7 @@ export function Login() {
               >
                 Entrar
               </Button>
-            </Form>
+            </Unform>
           </Box>
         </Col>
       </Row>
