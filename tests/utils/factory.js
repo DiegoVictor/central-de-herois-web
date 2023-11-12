@@ -8,8 +8,8 @@ factory.define(
     _id: faker.number.int,
     name: faker.person.fullName,
     description: faker.lorem.paragraph,
-    longitude: faker.location.longitude,
-    latitude: faker.location.latitude,
+    longitude: () => faker.location.longitude().toString(),
+    latitude: () => faker.location.latitude().toString(),
     status: () =>
       faker.helpers.arrayElement(['resting', 'out_of_combat', 'patrolling']),
     rank: () => faker.helpers.arrayElement(['S', 'A', 'B', 'C']),
@@ -22,8 +22,8 @@ factory.define('Monster', {}, async () => {
     _id: faker.number.int(),
     name: faker.person.fullName(),
     rank: faker.helpers.arrayElement(['God', 'Dragon', 'Tiger', 'Wolf']),
-    longitude: faker.location.longitude(),
-    latitude: faker.location.latitude(),
+    longitude: faker.location.longitude().toString(),
+    latitude: faker.location.latitude().toString(),
     heroes: [hero],
     status: faker.helpers.arrayElement(['fighting', 'defeated']),
   };
