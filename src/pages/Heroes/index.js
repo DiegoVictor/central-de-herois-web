@@ -63,7 +63,9 @@ export function Heroes() {
     [reList]
   );
 
-  useEffect(reList);
+  useEffect(() => {
+    reList();
+  }, [reList]);
 
   return (
     <Container>
