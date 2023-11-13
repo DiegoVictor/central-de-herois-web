@@ -49,9 +49,9 @@ describe('Login page', () => {
       fireEvent.click(getByTestId('submit'));
     });
 
-    expect(localStorage.getItem('iheroes_user')).toBe(
+    expect(localStorage.getItem('iheroes')).toBe(
       JSON.stringify({
-        user,
+        ...user,
         token,
       })
     );
