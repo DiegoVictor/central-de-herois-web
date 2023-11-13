@@ -26,6 +26,7 @@ factory.define('Monster', {}, async () => {
     latitude: faker.location.latitude().toString(),
     heroes: [hero],
     status: faker.helpers.arrayElement(['fighting', 'defeated']),
+    updatedAt: faker.date.recent(),
   };
 });
 
