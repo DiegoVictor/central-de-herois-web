@@ -58,11 +58,14 @@ export function FormModal({ formData = null, handleMonsterDefeated, onHide }) {
 }
 
 FormModal.propTypes = {
-  formData: PropTypes.objectOf({
-    heroes: PropTypes.arrayOf({
-      _id: PropTypes.string.isRequired,
+  formData: PropTypes.shape({
+    heroes: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          .isRequired,
       name: PropTypes.string.isRequired,
-    }).isRequired,
+      })
+    ).isRequired,
   }),
   handleMonsterDefeated: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
