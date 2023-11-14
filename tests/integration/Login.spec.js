@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker';
 import MockAdapter from 'axios-mock-adapter';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
+import { UserProvider } from '~/contexts/User';
 import api from '~/services/api';
 import { Login } from '~/pages/Login';
 import factory from '../utils/factory';
@@ -35,7 +36,11 @@ describe('Login page', () => {
         element: <Login />,
       },
     ]);
-    const { getByTestId } = render(<RouterProvider router={router} />);
+    const { getByTestId } = render(
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
+    );
 
     fireEvent.change(getByTestId('email'), {
       target: { value: email },
@@ -69,7 +74,9 @@ describe('Login page', () => {
       },
     ]);
     const { getByTestId, getByText } = render(
-      <RouterProvider router={router} />
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
     );
 
     fireEvent.change(getByTestId('email'), {
@@ -102,7 +109,11 @@ describe('Login page', () => {
 
     router.window.alert = jest.fn();
 
-    const { getByTestId } = render(<RouterProvider router={router} />);
+    const { getByTestId } = render(
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
+    );
 
     fireEvent.change(getByTestId('email'), {
       target: { value: email },
