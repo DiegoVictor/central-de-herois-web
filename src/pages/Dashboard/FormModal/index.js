@@ -11,14 +11,14 @@ export function FormModal({ formData = null, handleMonsterDefeated, onHide }) {
   return (
     <Modal title="Ameaça" onHide={onHide}>
       <Unform initialData={formData} onSubmit={handleMonsterDefeated}>
-        <Input type="hidden" name="monsterId" defaultValue={formData._id} />
+        <Input type="hidden" name="monsterId" />
 
         <Form.Group>
           <Form.Label>Status do(s) heroi(s) após o combate:</Form.Label>
         </Form.Group>
 
         <Row>
-          {formData.heroes?.map((hero, index) => (
+          {formData?.heroes?.map((hero, index) => (
             <Col xs={6} key={hero._id}>
               <Form.Group>
                 <Form.Label>{hero.name}</Form.Label>
