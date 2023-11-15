@@ -5,6 +5,14 @@ import PropTypes from 'prop-types';
 
 import { googleMapUrl } from '~/utils/constants';
 
+const toLocaleString = (date) => {
+  if (typeof date === 'string') {
+    date = new Date(date);
+  }
+
+  return date.toLocaleString();
+};
+
 export function DefeatedTable({ monsters }) {
   return (
     <Table hover striped size="sm">
@@ -72,7 +80,7 @@ export function DefeatedTable({ monsters }) {
                 {monster.latitude},{monster.longitude}
               </Link>
             </td>
-            <td>{monster.updatedAt.toLocaleString()}</td>
+            <td>{toLocaleString(monster.updatedAt)}</td>
           </tr>
         ))}
       </tbody>
