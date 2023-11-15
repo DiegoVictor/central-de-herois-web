@@ -85,18 +85,23 @@ export function FightingTable({ monsters, setFormData }) {
 }
 
 FightingTable.propTypes = {
-  monsters: PropTypes.arrayOf({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    rank: PropTypes.string.isRequired,
-    latitude: PropTypes.string.isRequired,
-    longitude: PropTypes.string.isRequired,
-    heroes: PropTypes.arrayOf({
-      _id: PropTypes.string.isRequired,
+  monsters: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       name: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
       rank: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+      latitude: PropTypes.string.isRequired,
+      longitude: PropTypes.string.isRequired,
+      heroes: PropTypes.arrayOf(
+        PropTypes.shape({
+          _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+            .isRequired,
+          name: PropTypes.string.isRequired,
+          description: PropTypes.string.isRequired,
+          rank: PropTypes.string.isRequired,
+        })
+      ).isRequired,
+    })
+  ).isRequired,
   setFormData: PropTypes.func.isRequired,
 };
