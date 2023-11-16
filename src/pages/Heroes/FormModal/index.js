@@ -10,7 +10,13 @@ import { Modal } from '~/components/Modal';
 export function FormModal({ formData = null, handleHeroForm, onHide }) {
   return (
     <Modal title="Heroi" show={formData} onHide={onHide}>
-      <Unform initialData={formData} onSubmit={handleHeroForm}>
+      <Unform
+        initialData={formData}
+        onSubmit={(data) => {
+          const { _id } = formData;
+          handleHeroForm({ _id, ...data });
+        }}
+      >
         <Form.Group>
           <Form.Label>Nome</Form.Label>
           <Input className="form-control" name="name" data-testid="name" />

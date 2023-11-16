@@ -10,9 +10,16 @@ import { Select } from '~/components/Select';
 export function FormModal({ formData = null, handleMonsterDefeated, onHide }) {
   return (
     <Modal title="Ameaça" onHide={onHide}>
-      <Unform initialData={formData} onSubmit={handleMonsterDefeated}>
-        <Input type="hidden" name="monsterId" />
-
+      <Unform
+        initialData={formData}
+        onSubmit={(data) => {
+          const { _id } = formData;
+          handleMonsterDefeated({
+            ...data,
+            monsterId: _id,
+          });
+        }}
+      >
         <Form.Group>
           <Form.Label>Status do(s) heroi(s) após o combate:</Form.Label>
         </Form.Group>
