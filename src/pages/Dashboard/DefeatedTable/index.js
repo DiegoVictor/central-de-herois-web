@@ -5,13 +5,7 @@ import PropTypes from 'prop-types';
 
 import { googleMapUrl } from '~/utils/constants';
 
-const toLocaleString = (date) => {
-  if (typeof date === 'string') {
-    date = new Date(date);
-  }
-
-  return date.toLocaleString();
-};
+const toLocaleString = (date) => new Date(date).toLocaleString();
 
 export function DefeatedTable({ monsters }) {
   return (
@@ -34,7 +28,7 @@ export function DefeatedTable({ monsters }) {
         )}
         {monsters.map((monster) => (
           <tr key={monster._id}>
-            <td>
+            <td data-testid={`monster_defeated_${monster._id}`}>
               {monster.heroes.map((hero) => (
                 <OverlayTrigger
                   key={hero._id}
