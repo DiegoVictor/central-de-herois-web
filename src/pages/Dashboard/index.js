@@ -64,7 +64,7 @@ export function Dashboard() {
       await reList();
       setInterval(() => reList('fighting'), ONE_MINUTE);
     })();
-  });
+  }, [reList]);
 
   return (
     <Container>
