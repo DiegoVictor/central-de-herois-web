@@ -11,7 +11,7 @@ import factory from '../utils/factory';
 const apiMock = new MockAdapter(api);
 
 describe('Heroes page', () => {
-  it('should be able to get a list of heroes', async () => {
+  it('should be able to get the list of heroes', async () => {
     const heroes = await factory.attrsMany('Hero', 3);
 
     apiMock.onGet('heroes').reply(200, heroes);
@@ -39,6 +39,27 @@ describe('Heroes page', () => {
         getLabel(hero.status)
       );
     });
+  });
+
+  it('should not be able to get the list of heroes', async () => {
+    apiMock.onGet('heroes').networkError();
+
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Heroes />,
+      },
+    ]);
+
+    router.window.alert = jest.fn();
+
+    render(<RouterProvider router={router} />);
+
+    await waitFor(() => expect(router.window.alert).toHaveBeenCalled());
+
+    expect(router.window.alert).toHaveBeenCalledWith(
+      'Não foi possivel atualizar a lista de herois'
+    );
   });
 
   it('should be able to remove an hero', async () => {
@@ -146,6 +167,36 @@ describe('Heroes page', () => {
     });
 
     expect(getByTestId(`hero_${_id}`)).toBeInTheDocument();
+  });
+
+  it('should be able to cancel the hero creation', async () => {
+    const { _id, name, rank, latitude, longitude, status } =
+      await factory.attrs('Hero');
+
+    apiMock.reset();
+    apiMock
+      .onGet('heroes')
+      .reply(200, [])
+      .onGet('heroes')
+      .reply(200, [{ _id, name, rank, latitude, longitude, status }]);
+
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Heroes />,
+      },
+    ]);
+    const { getByTestId } = render(<RouterProvider router={router} />);
+
+    await act(async () => {
+      fireEvent.click(getByTestId('new'));
+    });
+
+    await act(async () => {
+      fireEvent.click(getByTestId('cancel'));
+    });
+
+    expect(apiMock.history.post.length).toBe(0);
   });
 
   it('should not be able to store a new hero', async () => {
