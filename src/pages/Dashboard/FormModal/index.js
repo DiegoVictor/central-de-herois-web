@@ -7,9 +7,9 @@ import { Input } from '~/components/Input';
 import { Modal } from '~/components/Modal';
 import { Select } from '~/components/Select';
 
-export function FormModal({ formData = null, handleMonsterDefeated, onHide }) {
+export function FormModal({ formData, handleMonsterDefeated, onHide }) {
   return (
-    <Modal title="Ameaça" onHide={onHide}>
+    <Modal title="Ameaça" show={formData} onHide={onHide}>
       <Unform
         initialData={formData}
         onSubmit={(data) => {
