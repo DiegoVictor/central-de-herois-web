@@ -68,7 +68,7 @@ export function FightingTable({ monsters, setFormData }) {
             </td>
             <td className="text-right">
               <Button
-                data-testid={`monster_defeated_${monster._id}`}
+                data-testid={`monster_defeated_${monster._id}_button`}
                 onClick={() => {
                   setFormData(monster);
                 }}

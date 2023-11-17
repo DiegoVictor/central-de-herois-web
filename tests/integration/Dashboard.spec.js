@@ -50,6 +50,11 @@ describe('Dashboard page', () => {
         element: <Dashboard />,
       },
     ]);
+
+    router.window.setInterval = (cb) => {
+      cb();
+    };
+
     const { getByTestId, getByText } = render(
       <RouterProvider router={router} />
     );
@@ -66,13 +71,11 @@ describe('Dashboard page', () => {
 
       expect(getByText(hero.name)).toBeInTheDocument();
       expect(getByTestId(`hero_rank_${hero._id}`)).toHaveTextContent(hero.rank);
-      expect(getByText(name)).toBeInTheDocument();
+      expect(getByText(monster.name)).toBeInTheDocument();
       expect(getByTestId(`monster_rank_${monster._id}`)).toHaveTextContent(
         monster.rank
       );
-      expect(
-        getByText(monster.location.coordinates.slice().reverse().join(', '))
-      );
+      expect(getByText(`${monster.latitude},${monster.longitude}`));
     });
   });
 
@@ -81,42 +84,49 @@ describe('Dashboard page', () => {
       status: 'fighting',
     });
 
+    apiMock.reset();
     apiMock
+      .onPut(`/monsters/${monster._id}/defeated`)
+      .reply(200)
       .onGet('monsters', {
         params: {
           status: 'fighting',
         },
       })
-      .reply(200, [monster])
+      .replyOnce(200, [monster])
+      .onGet('monsters', {
+        params: {
+          status: 'fighting',
+        },
+      })
+      .reply(200, [])
       .onGet('monsters', {
         params: {
           status: 'defeated',
         },
       })
-      .reply(200, [])
-      .onPut(`/monsters/${monster._id}/defeated`)
-      .reply(200);
+      .replyOnce(200, [])
+      .onGet('monsters', {
+        params: {
+          status: 'defeated',
+        },
+      })
+      .reply(200, [monster]);
 
     const router = createMemoryRouter([
       {
         path: '/',
-        element: <Layout />,
-        children: [
-          {
-            index: true,
-            element: <Dashboard />,
-          },
-        ],
+        element: <Dashboard />,
       },
     ]);
-    const { getByTestId, getByText } = render(
-      <RouterProvider router={router} />
-    );
+    router.window.setInterval = jest.fn();
 
-    await waitFor(() => getByTestId(`monster_defeated_${monster._id}`));
+    const { getByTestId } = render(<RouterProvider router={router} />);
+
+    await waitFor(() => getByTestId(`monster_defeated_${monster._id}_button`));
 
     await act(async () => {
-      fireEvent.click(getByTestId(`monster_defeated_${monster._id}`));
+      fireEvent.click(getByTestId(`monster_defeated_${monster._id}_button`));
     });
 
     const [hero] = monster.heroes;
@@ -128,7 +138,53 @@ describe('Dashboard page', () => {
       fireEvent.click(getByTestId('submit'));
     });
 
-    expect(getByText('Ameaça atualizada com sucesso!')).toBeInTheDocument();
+    expect(getByTestId(`monster_defeated_${monster._id}`)).toBeInTheDocument();
+  });
+
+  it('should be able to not update a monster as defeated', async () => {
+    const monster = await factory.attrs('Monster', {
+      status: 'fighting',
+    });
+
+    apiMock.reset();
+    apiMock
+      .onPut(`/monsters/${monster._id}/defeated`)
+      .reply(200)
+      .onGet('monsters', {
+        params: {
+          status: 'fighting',
+        },
+      })
+      .reply(200, [monster])
+      .onGet('monsters', {
+        params: {
+          status: 'defeated',
+        },
+      })
+      .reply(200, []);
+
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Dashboard />,
+      },
+    ]);
+
+    const { getByTestId } = render(<RouterProvider router={router} />);
+
+    await waitFor(() => getByTestId(`monster_defeated_${monster._id}_button`));
+
+    await act(async () => {
+      fireEvent.click(getByTestId(`monster_defeated_${monster._id}_button`));
+    });
+
+    await act(async () => {
+      fireEvent.click(getByTestId('cancel'));
+    });
+
+    expect(
+      getByTestId(`monster_defeated_${monster._id}_button`)
+    ).toBeInTheDocument();
   });
 
   it('should not be able to set a monster as defeated', async () => {
@@ -155,23 +211,18 @@ describe('Dashboard page', () => {
     const router = createMemoryRouter([
       {
         path: '/',
-        element: <Layout />,
-        children: [
-          {
-            index: true,
-            element: <Dashboard />,
-          },
-        ],
+        element: <Dashboard />,
       },
     ]);
-    const { getByTestId, getByText } = render(
-      <RouterProvider router={router} />
-    );
 
-    await waitFor(() => getByTestId(`monster_defeated_${monster._id}`));
+    router.window.alert = jest.fn();
+
+    const { getByTestId } = render(<RouterProvider router={router} />);
+
+    await waitFor(() => getByTestId(`monster_defeated_${monster._id}_button`));
 
     await act(async () => {
-      fireEvent.click(getByTestId(`monster_defeated_${monster._id}`));
+      fireEvent.click(getByTestId(`monster_defeated_${monster._id}_button`));
     });
 
     const [hero] = monster.heroes;
@@ -183,8 +234,8 @@ describe('Dashboard page', () => {
       fireEvent.click(getByTestId('submit'));
     });
 
-    expect(
-      getByText('Não foi possivel atualizar o status da ameaça!')
-    ).toBeInTheDocument();
+    expect(router.window.alert).toHaveBeenCalledWith(
+      'Não foi possivel atualizar o status da ameaça!'
+    );
   });
 });
