@@ -32,12 +32,20 @@
     "react/jsx-props-no-spreading": "off",
     "no-underscore-dangle": "off",
     "no-param-reassign": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "import/extensions": ["error", "never", { "css": "always" }]
   },
   "settings": {
     "import/resolver": {
-      "babel-plugin-root-import": {
-        "rootPathSuffix": "src"
+      "alias": {
+        "map": [
+          ["~/pages", "./src/pages"],
+          ["~/components", "./src/components"],
+          ["~/contexts", "./src/contexts"],
+          ["~/services", "./src/services"],
+          ["~/utils", "./src/utils"],
+          ["~/helpers", "./src/helpers"]
+        ]
       }
     }
   }
