@@ -12,6 +12,12 @@ import { Privated } from './Privated';
 const router = createBrowserRouter([
   {
     path: '/',
+    element: (
+      <>
+        <NavBar />
+        <Outlet />
+      </>
+    ),
     children: [
       {
         index: true,
@@ -32,7 +38,6 @@ const router = createBrowserRouter([
 export function Routes() {
   return (
     <UserProvider>
-      <NavBar />
       <RouterProvider router={router} />
     </UserProvider>
   );
