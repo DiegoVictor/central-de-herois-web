@@ -16,6 +16,11 @@
     "styled-components": "^6.1.0",
     "yup": "^1.3.2"
   },
+  "overrides": {
+    "jest-watch-typeahead": {
+      "jest": "^29.7.0"
+    }
+  },
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
@@ -44,7 +49,7 @@
     "@babel/preset-react": "^7.22.15",
     "@faker-js/faker": "^8.2.0",
     "@testing-library/jest-dom": "^6.1.4",
-    "@testing-library/react": "^14.0.0",
+    "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.1",
     "@types/factory-girl": "^5.0.11",
     "@types/jest": "^29.5.6",
@@ -53,10 +58,11 @@
     "babel-jest": "^29.7.0",
     "babel-plugin-root-import": "^6.4.1",
     "customize-cra": "^1.0.0",
-    "eslint": "^8.52.0",
+    "eslint": "^8.54.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-import-resolver-babel-plugin-root-import": "^1.1.1",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-node": "^0.3.9",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-prettier": "^5.0.1",
