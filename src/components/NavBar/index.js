@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
-import { Nav } from 'react-bootstrap';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 
 import { UserContext } from '~/contexts/User';
-import { Link } from '~/components/Link';
-import { Container } from './styles';
 
 export function NavBar() {
   const { token } = useContext(UserContext);
@@ -13,13 +11,16 @@ export function NavBar() {
   }
 
   return (
-    <Container>
-      <Nav.Item>
-        <Link to="/dashboard">Ameaças</Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Link to="/heroes">Herois</Link>
-      </Nav.Item>
-    </Container>
+    <Navbar bg="primary" data-bs-theme="dark">
+      <Container>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/dashboard">Ameaças</Nav.Link>
+            <Nav.Link href="/heroes">Herois</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
