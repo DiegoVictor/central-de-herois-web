@@ -1,12 +1,5 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-export const Container = styled.div`
-  height: 100%;
-  margin: auto;
-  max-width: 1000px;
-  padding: 0px 20px;
-`;
 
 export default createGlobalStyle`
   * {
