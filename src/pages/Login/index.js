@@ -7,8 +7,8 @@ import { redirect } from 'react-router-dom';
 import { UserContext } from '~/contexts/User';
 import api from '~/services/api';
 import { Input } from '~/components/Input';
-import { Box } from '~/components/Box';
 import { getValidationErrors } from '~/utils/getValidationErrors';
+import { Box } from './styles';
 
 const schema = Yup.object().shape({
   email: Yup.string().email('Email inválido').required('O email é obrigatório'),
@@ -58,32 +58,35 @@ export function Login() {
           <Box>
             <Unform ref={formRef} onSubmit={handleLogin}>
               <Form.Group>
-                <Form.Label>Email</Form.Label>
                 <Input
                   data-testid="email"
                   type="email"
-                  className="form-control form-control-lg"
+                  className="form-control form-control-lg rounded"
+                  placeholder="Email"
                   name="email"
                 />
               </Form.Group>
-              <Form.Group>
-                <Form.Label>Senha</Form.Label>
+              <Form.Group className="mt-3">
                 <Input
                   data-testid="password"
                   type="password"
-                  className="form-control form-control-lg"
+                  placeholder="Senha"
+                  className="form-control form-control-lg rounded"
                   name="password"
                 />
               </Form.Group>
 
-              <Button
-                data-testid="submit"
-                type="submit"
-                size="lg"
-                onClick={() => formRef.current?.submitForm()}
-              >
-                Entrar
-              </Button>
+              <div className="d-flex justify-content-center">
+                <Button
+                  data-testid="submit"
+                  type="submit"
+                  size="lg"
+                  className="container-fluid rounded mt-3"
+                  onClick={() => formRef.current?.submitForm()}
+                >
+                  Entrar
+                </Button>
+              </div>
             </Unform>
           </Box>
         </Col>
