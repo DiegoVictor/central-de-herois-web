@@ -68,7 +68,7 @@ export function Heroes() {
   }, [reList]);
 
   return (
-    <Container>
+    <Container className="container">
       <Row>
         <Col>
           <div className="text-right">
