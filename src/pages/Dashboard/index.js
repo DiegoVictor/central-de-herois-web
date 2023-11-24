@@ -67,21 +67,22 @@ export function Dashboard() {
   }, [reList]);
 
   return (
-    <Container>
-      <h5 className="d-flex align-items-center">
-        Combatendo{' '}
-        <Badge className="ml-1" variant="primary">
-          {monsters.length}
-        </Badge>
-      </h5>
+    <Container className="container">
+      <h3 className="d-flex align-items-center">
+        {monsters.length} heroi(s) em combate
+      </h3>
+      <hr className="mb-0" />
       <FightingTable monsters={monsters} setFormData={setFormData} />
 
-      <h5 className="d-flex mt-5 align-items-center">
+      <div className="pt-5 d-block" />
+
+      <h3 className="d-flex mt-5 align-items-center">
         Combatidos
-        <Badge className="ml-1" variant="primary">
+        <Badge className="ms-1" bg="primary">
           {defeated.length}
         </Badge>
-      </h5>
+      </h3>
+      <hr className="mb-0" />
       <DefeatedTable monsters={defeated} />
 
       <FormModal
