@@ -9,7 +9,7 @@ const toLocaleString = (date) => new Date(date).toLocaleString();
 
 export function DefeatedTable({ monsters }) {
   return (
-    <Table hover striped size="sm">
+    <Table hover striped size="sm" className="mt-0">
       <thead>
         <tr>
           <th>Heroi(s)</th>
