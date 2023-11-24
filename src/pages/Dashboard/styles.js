@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  margin-top: 50px;
+  margin-top: 100px;
+  padding: 0px 20px;
 
   table {
     margin-top: 10px;
