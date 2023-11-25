@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 
 import { UserContext } from '~/contexts/User';
 
 export function NavBar() {
-  const { token } = useContext(UserContext);
+  const { pathname } = useLocation();
+  const { user } = useContext(UserContext);
 
-  if (!token) {
+  if (!user.token) {
     return null;
   }
 
@@ -16,8 +18,18 @@ export function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/dashboard">Ameaças</Nav.Link>
-            <Nav.Link href="/heroes">Herois</Nav.Link>
+            <Nav.Link
+              className={{ active: pathname === '/dashboard' }}
+              href="/dashboard"
+            >
+              Ameaças
+            </Nav.Link>
+            <Nav.Link
+              className={{ active: pathname === '/heroes' }}
+              href="/heroes"
+            >
+              Herois
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
