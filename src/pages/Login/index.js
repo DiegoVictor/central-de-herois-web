@@ -7,6 +7,7 @@ import { redirect } from 'react-router-dom';
 import { UserContext } from '~/contexts/User';
 import api from '~/services/api';
 import { Input } from '~/components/Input';
+import { Title } from '~/components/Title';
 import { getValidationErrors } from '~/utils/getValidationErrors';
 import { Box } from './styles';
 
@@ -56,6 +57,9 @@ export function Login() {
       <Row className="justify-content-center h-100">
         <Col className="d-flex align-items-center">
           <Box>
+            <Title>
+              <span>L</span>ogin
+            </Title>
             <Unform ref={formRef} onSubmit={handleLogin}>
               <Form.Group>
                 <Input
