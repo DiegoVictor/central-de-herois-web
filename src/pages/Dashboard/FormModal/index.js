@@ -1,34 +1,42 @@
 import React from 'react';
-import { Form, Button, Row, Col, ButtonGroup } from 'react-bootstrap';
+import { Form, Button, ListGroup } from 'react-bootstrap';
 import { Form as Unform } from '@unform/web';
+import Modal from 'react-bootstrap/Modal';
 import PropTypes from 'prop-types';
 
 import { Input } from '~/components/Input';
-import { Modal } from '~/components/Modal';
 import { Select } from '~/components/Select';
 
 export function FormModal({ formData, handleMonsterDefeated, onHide }) {
   return (
     <Modal title="Ameaça" show={formData} onHide={onHide}>
-      <Unform
-        initialData={formData}
-        onSubmit={(data) => {
-          const { _id } = formData;
-          handleMonsterDefeated({
-            ...data,
-            monsterId: _id,
-          });
-        }}
-      >
-        <Form.Group>
-          <Form.Label>Status do(s) heroi(s) após o combate:</Form.Label>
-        </Form.Group>
+      <Modal.Header closeButton>
+        <Modal.Title>Status</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Unform
+          initialData={formData}
+          onSubmit={(data) => {
+            const { _id } = formData;
+            handleMonsterDefeated({
+              ...data,
+              monsterId: _id,
+            });
+          }}
+        >
+          <Form.Group>
+            <Form.Label>Status do(s) heroi(s) após o combate:</Form.Label>
+          </Form.Group>
 
-        <Row>
-          {formData?.heroes?.map((hero, index) => (
-            <Col xs={6} key={hero._id}>
-              <Form.Group>
-                <Form.Label>{hero.name}</Form.Label>
+          <ListGroup className="mt-3">
+            {formData?.heroes?.map((hero, index) => (
+              <ListGroup.Item
+                xs={6}
+                key={hero._id}
+                variant="dark"
+                className="d-flex align-items-center justify-content-between"
+              >
+                {hero.name}
 
                 <Input
                   type="hidden"
@@ -37,7 +45,7 @@ export function FormModal({ formData, handleMonsterDefeated, onHide }) {
                 />
 
                 <Select
-                  className="form-control"
+                  className="form-control w-auto"
                   key={hero._id}
                   name={`heroes[${index}][status]`}
                   data-testid={`hero_status_${hero._id}`}
@@ -46,20 +54,30 @@ export function FormModal({ formData, handleMonsterDefeated, onHide }) {
                   <option value="patrolling">Patrulhando</option>
                   <option value="out_of_combat">Fora de combate</option>
                 </Select>
-              </Form.Group>
-            </Col>
-          ))}
-        </Row>
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </Unform>
+      </Modal.Body>
 
-        <ButtonGroup>
-          <Button data-testid="cancel" variant="secondary" onClick={onHide}>
-            Cancelar
-          </Button>
-          <Button data-testid="submit" type="submit">
-            Enviar
-          </Button>
-        </ButtonGroup>
-      </Unform>
+      <Modal.Footer>
+        <Button
+          data-testid="cancel"
+          variant="secondary"
+          onClick={onHide}
+          className="rounded"
+        >
+          Cancelar
+        </Button>
+        <Button
+          data-testid="submit"
+          variant="success"
+          type="submit"
+          className="rounded"
+        >
+          Alterar
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }
