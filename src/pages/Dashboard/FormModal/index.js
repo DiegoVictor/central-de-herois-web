@@ -10,20 +10,20 @@ import { Select } from '~/components/Select';
 export function FormModal({ formData, handleMonsterDefeated, onHide }) {
   return (
     <Modal title="Ameaça" show={formData} onHide={onHide}>
-      <Modal.Header closeButton>
-        <Modal.Title>Status</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Unform
-          initialData={formData}
-          onSubmit={(data) => {
-            const { _id } = formData;
-            handleMonsterDefeated({
-              ...data,
-              monsterId: _id,
-            });
-          }}
-        >
+      <Unform
+        initialData={formData}
+        onSubmit={(data) => {
+          const { _id } = formData;
+          handleMonsterDefeated({
+            ...data,
+            monsterId: _id,
+          });
+        }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Status</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           <Form.Group>
             <Form.Label>Status do(s) heroi(s) após o combate:</Form.Label>
           </Form.Group>
@@ -57,27 +57,27 @@ export function FormModal({ formData, handleMonsterDefeated, onHide }) {
               </ListGroup.Item>
             ))}
           </ListGroup>
-        </Unform>
-      </Modal.Body>
+        </Modal.Body>
 
-      <Modal.Footer>
-        <Button
-          data-testid="cancel"
-          variant="secondary"
-          onClick={onHide}
-          className="rounded"
-        >
-          Cancelar
-        </Button>
-        <Button
-          data-testid="submit"
-          variant="success"
-          type="submit"
-          className="rounded"
-        >
-          Alterar
-        </Button>
-      </Modal.Footer>
+        <Modal.Footer>
+          <Button
+            data-testid="cancel"
+            variant="secondary"
+            onClick={onHide}
+            className="rounded"
+          >
+            Cancelar
+          </Button>
+          <Button
+            data-testid="submit"
+            variant="success"
+            type="submit"
+            className="rounded"
+          >
+            Alterar
+          </Button>
+        </Modal.Footer>
+      </Unform>
     </Modal>
   );
 }
