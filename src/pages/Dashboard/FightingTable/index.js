@@ -1,13 +1,14 @@
 import React from 'react';
-import { Table, OverlayTrigger, Popover, Badge, Button } from 'react-bootstrap';
+import { Table, Badge, Button, ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { googleMapUrl } from '~/utils/constants';
+import { Tr } from '../styles';
 
 export function FightingTable({ monsters, setFormData }) {
   return (
-    <Table hover striped size="sm" className="mt-0">
+    <Table hover striped borderless size="sm" variant="dark">
       <thead>
         <tr>
           <th>Heroi(s)</th>
@@ -18,40 +19,27 @@ export function FightingTable({ monsters, setFormData }) {
       </thead>
       <tbody>
         {monsters.map((monster) => (
-          <tr key={monster._id}>
+          <Tr key={monster._id}>
             <td>
-              {monster.heroes.map((hero) => (
-                <OverlayTrigger
-                  key={hero._id}
-                  trigger={['hover', 'focus']}
-                  placement="bottom"
-                  overlay={
-                    <Popover>
-                      <Popover.Header as="h3">{hero.name}</Popover.Header>
-                      <Popover.Body>
-                        <p>{hero.description}</p>
-                      </Popover.Body>
-                    </Popover>
-                  }
-                >
-                  <span>
+              <ListGroup>
+                {monster.heroes.map((hero) => (
+                  <ListGroup.Item
+                    className="d-flex justify-content-between align-items-start"
+                    variant="dark"
+                    key={hero._id}
+                  >
                     {hero.name}
-                    <Badge
-                      data-testid={`hero_rank_${hero._id}`}
-                      variant="secondary"
-                    >
-                      {hero.rank}
-                    </Badge>
-                  </span>
-                </OverlayTrigger>
-              ))}
+                    <Badge bg="secondary">{hero.rank}</Badge>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
             </td>
             <td>
               <span className="d-flex align-items-center">
-                {monster.name}{' '}
+                {monster.name}
                 <Badge
-                  className="ml-1"
-                  variant="secondary"
+                  className="ms-1"
+                  bg="secondary"
                   data-testid={`monster_rank_${monster._id}`}
                 >
                   {monster.rank}
@@ -63,21 +51,24 @@ export function FightingTable({ monsters, setFormData }) {
                 to={`${googleMapUrl}${monster.latitude},${monster.longitude}`}
                 target="_blank"
               >
-                {monster.latitude},{monster.longitude}
+                {monster.latitude}, {monster.longitude}
               </Link>
             </td>
-            <td className="text-right">
-              <Button
-                data-testid={`monster_defeated_${monster._id}_button`}
-                onClick={() => {
-                  setFormData(monster);
-                }}
-                size="sm"
-              >
-                Ameaça combatida
-              </Button>
+            <td>
+              <div className="d-flex justify-content-end me-3">
+                <Button
+                  data-testid={`monster_defeated_${monster._id}_button`}
+                  onClick={() => {
+                    setFormData(monster);
+                  }}
+                  size="sm"
+                  variant="success"
+                >
+                  Ameaça combatida
+                </Button>
+              </div>
             </td>
-          </tr>
+          </Tr>
         ))}
       </tbody>
     </Table>
