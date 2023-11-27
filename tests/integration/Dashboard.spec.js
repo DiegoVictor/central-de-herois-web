@@ -75,7 +75,7 @@ describe('Dashboard page', () => {
       expect(getByTestId(`monster_rank_${monster._id}`)).toHaveTextContent(
         monster.rank
       );
-      expect(getByText(`${monster.latitude},${monster.longitude}`));
+      expect(getByText(`${monster.latitude}, ${monster.longitude}`));
     });
   });
 
