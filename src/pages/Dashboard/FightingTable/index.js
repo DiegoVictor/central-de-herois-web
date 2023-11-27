@@ -29,7 +29,9 @@ export function FightingTable({ monsters, setFormData }) {
                     key={hero._id}
                   >
                     {hero.name}
-                    <Badge bg="secondary">{hero.rank}</Badge>
+                    <Badge bg="secondary" data-testid={`hero_rank_${hero._id}`}>
+                      {hero.rank}
+                    </Badge>
                   </ListGroup.Item>
                 ))}
               </ListGroup>
