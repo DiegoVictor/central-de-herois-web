@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, OverlayTrigger, Popover, Badge } from 'react-bootstrap';
+import { Table, Badge, ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -29,37 +29,28 @@ export function DefeatedTable({ monsters }) {
         {monsters.map((monster) => (
           <tr key={monster._id}>
             <td data-testid={`monster_defeated_${monster._id}`}>
-              {monster.heroes.map((hero) => (
-                <OverlayTrigger
-                  key={hero._id}
-                  trigger={['hover', 'focus']}
-                  placement="bottom"
-                  overlay={
-                    <Popover>
-                      <Popover.Header as="h3">{hero.name}</Popover.Header>
-                      <Popover.Body>
-                        <p>{hero.description}</p>
-                      </Popover.Body>
-                    </Popover>
-                  }
-                >
-                  <div>
+              <ListGroup>
+                {monster.heroes.map((hero) => (
+                  <ListGroup.Item
+                    className="d-flex justify-content-between align-items-start"
+                    key={hero._id}
+                  >
                     {hero.name}
-                    <Badge variant="secondary">
+                    <Badge bg="secondary">
                       <div data-testid={`hero_rank_${hero._id}`}>
                         {hero.rank}
                       </div>
                     </Badge>
-                  </div>
-                </OverlayTrigger>
-              ))}
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
             </td>
             <td>
               <span className="d-flex align-items-center">
-                {monster.name}{' '}
+                {monster.name}
                 <Badge
-                  className="ml-1"
-                  variant="secondary"
+                  className="ms-1"
+                  bg="secondary"
                   data-testid={`monster_rank_${monster._id}`}
                 >
                   {monster.rank}
@@ -71,7 +62,7 @@ export function DefeatedTable({ monsters }) {
                 to={`${googleMapUrl}${monster.latitude},${monster.longitude}`}
                 target="_blank"
               >
-                {monster.latitude},{monster.longitude}
+                {monster.latitude}, {monster.longitude}
               </Link>
             </td>
             <td>{toLocaleString(monster.updatedAt)}</td>
