@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { googleMapUrl } from '~/utils/constants';
-import { Tr } from '../styles';
 
 export function FightingTable({ monsters, setFormData }) {
   return (
@@ -19,7 +18,7 @@ export function FightingTable({ monsters, setFormData }) {
       </thead>
       <tbody>
         {monsters.map((monster) => (
-          <Tr key={monster._id}>
+          <tr key={monster._id}>
             <td>
               <ListGroup>
                 {monster.heroes.map((hero) => (
@@ -70,7 +69,7 @@ export function FightingTable({ monsters, setFormData }) {
                 </Button>
               </div>
             </td>
-          </Tr>
+          </tr>
         ))}
       </tbody>
     </Table>
