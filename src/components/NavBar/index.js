@@ -22,7 +22,7 @@ export function NavBar() {
               className={{ active: pathname === '/dashboard' }}
               href="/dashboard"
             >
-              Ameaças
+              Central
             </Nav.Link>
             <Nav.Link
               className={{ active: pathname === '/heroes' }}
