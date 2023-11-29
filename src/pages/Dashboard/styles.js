@@ -11,7 +11,7 @@ export const Container = styled.div`
     }
   }
 `;
-  h5 {
-    font-weight: bold;
-  }
+
+export const SpaceBlock = styled.div`
+  height: 50px;
 `;
