@@ -73,15 +73,8 @@ export function Dashboard() {
       </Title>
       <FightingTable monsters={monsters} setFormData={setFormData} />
 
-      <div className="pt-5 d-block" />
-
-      <h3 className="d-flex mt-5 align-items-center">
-        Combatidos
-        <Badge className="ms-1" bg="primary">
-          {defeated.length}
-        </Badge>
-      </h3>
-      <hr className="mb-0" />
+      <hr />
+      <h4 className="ms-2 mb-3">Combatidos ({defeated.length})</h4>
       <DefeatedTable monsters={defeated} />
 
       <FormModal
