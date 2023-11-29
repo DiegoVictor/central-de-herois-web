@@ -18,7 +18,6 @@ export default createGlobalStyle`
   }
 
   body, input, button {
-    border-radius: 0px !important;
     font-family: Roboto, sans-serif;
     font-size: 1rem !important;
   }
