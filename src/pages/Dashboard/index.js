@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Badge } from 'react-bootstrap';
 
 import api from '~/services/api';
+import { Title } from '~/components/Title';
 import { FightingTable } from './FightingTable';
 import { DefeatedTable } from './DefeatedTable';
 import { FormModal } from './FormModal';
@@ -68,10 +68,9 @@ export function Dashboard() {
 
   return (
     <Container className="container">
-      <h3 className="d-flex align-items-center">
-        {monsters.length} heroi(s) em combate
-      </h3>
-      <hr className="mb-0" />
+      <Title>
+        <span>H</span>erois em combate ({monsters.length})
+      </Title>
       <FightingTable monsters={monsters} setFormData={setFormData} />
 
       <div className="pt-5 d-block" />
