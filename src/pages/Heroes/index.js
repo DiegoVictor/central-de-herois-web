@@ -69,13 +69,21 @@ export function Heroes() {
 
   return (
     <Container className="container">
-      <Row>
-        <Col>
-          <div className="text-right">
-            <Button data-testid="new" onClick={() => setFormData({})} size="sm">
-              Novo
-            </Button>
-          </div>
+      <Title className="d-flex justify-content-between align-items-center">
+        <div>
+          <span>H</span>erois ({heroes.length})
+        </div>
+        <div>
+          <Button
+            data-testid="new"
+            onClick={() => setFormData({})}
+            size="sm"
+            variant="success"
+          >
+            Adicionar
+          </Button>
+        </div>
+      </Title>
           <HeroesTable
             heroes={heroes}
             handleRemoveHero={handleRemoveHero}
