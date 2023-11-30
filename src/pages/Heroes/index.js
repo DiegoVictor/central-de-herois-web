@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
+import { Title } from '~/components/Title';
 import api from '~/services/api';
-import { Container } from './styles';
 import { FormModal } from './FormModal';
 import { HeroesTable } from './HeroesTable';
+import { Container } from './styles';
 
 const createOrUpdate = async (id, data) => {
   if (id) {
@@ -84,19 +85,18 @@ export function Heroes() {
           </Button>
         </div>
       </Title>
-          <HeroesTable
-            heroes={heroes}
-            handleRemoveHero={handleRemoveHero}
-            setFormData={setFormData}
-          />
 
-          <FormModal
-            formData={formData}
-            onHide={() => setFormData(null)}
-            handleHeroForm={handleHeroForm}
-          />
-        </Col>
-      </Row>
+      <HeroesTable
+        heroes={heroes}
+        handleRemoveHero={handleRemoveHero}
+        setFormData={setFormData}
+      />
+
+      <FormModal
+        formData={formData}
+        onHide={() => setFormData(null)}
+        handleHeroForm={handleHeroForm}
+      />
     </Container>
   );
 }
