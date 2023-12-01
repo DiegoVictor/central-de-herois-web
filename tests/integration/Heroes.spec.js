@@ -33,7 +33,7 @@ describe('Heroes page', () => {
       expect(getByText(hero.name)).toBeInTheDocument();
       expect(getByTestId(`hero_rank_${hero._id}`)).toHaveTextContent(hero.rank);
       expect(
-        getByText(`${hero.latitude},${hero.longitude}`)
+        getByText(`${hero.latitude}, ${hero.longitude}`)
       ).toBeInTheDocument();
       expect(getByTestId(`hero_status_${hero._id}`)).toHaveTextContent(
         getLabel(hero.status)
@@ -302,7 +302,7 @@ describe('Heroes page', () => {
 
     expect(getByText(name)).toBeInTheDocument();
     expect(getByTestId(`hero_rank_${hero._id}`)).toHaveTextContent(rank);
-    expect(getByText(`${latitude},${longitude}`)).toBeInTheDocument();
+    expect(getByText(`${latitude}, ${longitude}`)).toBeInTheDocument();
     expect(getByTestId(`hero_status_${hero._id}`)).toHaveTextContent(
       getLabel(status)
     );
