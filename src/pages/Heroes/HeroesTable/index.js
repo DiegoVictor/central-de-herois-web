@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button, ButtonGroup } from 'react-bootstrap';
+import { Table, Button, Badge, ButtonGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -28,34 +28,38 @@ export function HeroesTable({ heroes, handleRemoveHero, setFormData }) {
                 to={`${googleMapUrl}${hero.latitude},${hero.longitude}`}
                 target="_blank"
               >
-                {hero.latitude},{hero.longitude}
+                {hero.latitude}, {hero.longitude}
               </Link>
             </td>
             <td data-testid={`hero_status_${hero._id}`}>
-              {getLabel(hero.status)}
+              <Badge pill>{getLabel(hero.status)}</Badge>
             </td>
             <td className="text-right">
-              <ButtonGroup>
-                <Button
-                  data-testid={`hero_edit_${hero._id}`}
-                  size="sm"
-                  onClick={() => {
-                    setFormData(hero);
-                  }}
-                >
-                  Editar
-                </Button>
-                <Button
-                  data-testid={`hero_remove_${hero._id}`}
-                  disabled={hero.status === 'fighting'}
-                  size="sm"
-                  onClick={() => {
-                    handleRemoveHero(hero._id);
-                  }}
-                >
-                  Remover
-                </Button>
-              </ButtonGroup>
+              <div className="d-flex justify-content-end me-3">
+                <ButtonGroup>
+                  <Button
+                    data-testid={`hero_edit_${hero._id}`}
+                    size="sm"
+                    variant="secondary"
+                    onClick={() => {
+                      setFormData(hero);
+                    }}
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    data-testid={`hero_remove_${hero._id}`}
+                    disabled={hero.status === 'fighting'}
+                    size="sm"
+                    onClick={() => {
+                      handleRemoveHero(hero._id);
+                    }}
+                  >
+                    Remover
+                  </Button>
+                </ButtonGroup>
+              </div>
             </td>
           </tr>
         ))}
