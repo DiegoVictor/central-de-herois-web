@@ -69,7 +69,7 @@ export function FormModal({ formData = null, handleHeroForm, onHide }) {
                 name="status"
                 data-testid="status"
               >
-                <option value="resting">Descasando</option>
+                <option value="resting">Descansando</option>
                 <option value="out_of_combat">Fora de Combate</option>
                 <option value="patrolling">Patrulhando</option>
               </Select>
