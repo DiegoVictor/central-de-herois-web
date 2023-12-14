@@ -1,4 +1,4 @@
-# [Web] Central de Herois
+# [Web] Central de Heróis
 [![AppVeyor](https://img.shields.io/appveyor/build/diegovictor/central-de-herois-web?logo=appveyor&style=flat-square)](https://ci.appveyor.com/project/DiegoVictor/central-de-herois-web)
 [![react](https://img.shields.io/badge/reactjs-18.2.0-61dafb?style=flat-square&logo=react)](https://reactjs.org/)
 [![styled-components](https://img.shields.io/badge/styled_components-6.1.1-db7b86?style=flat-square&logo=styled-components)](https://styled-components.com/)
